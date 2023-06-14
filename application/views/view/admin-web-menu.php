@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="mandor-index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin-index.php">
         <div class="sidebar-brand-text mx-3">Sistem BKM</div>
     </a>
 
@@ -10,32 +10,45 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item <?php if($_SESSION['menu'] == 1){ print "active"; } ?>">
-        <a class="nav-link"href="<?php print base_url();?>mandor">
+        <a class="nav-link" href="admin-index.php">
             <i class="fas fa-fw fa-home"></i>
             <span>Dashboard</span></a>
     </li>
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 2){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>mandor/absensi">
-            <i class="far fa-fw fa-folder-open"></i>
-            <span>Absensi</span></a>
+        <a class="nav-link" href="admin-pekerjaan.php">
+            <i class="fas fa-fw fa-list-ul"></i>
+            <span>Data Pekerjaan</span></a>
     </li>
 
-    <!-- Nav Item - Kegiatan -->
+    <!-- Nav Item - Kavling -->
+    <li>
+        <li class="nav-item <?php if($_SESSION['menu'] == 6){ print "active"; } ?>">
+        <a class="nav-link" href="admin-kavling.php">
+            <i class="fas fa-fw fa-list-ul"></i>
+            <span>Data Kavling</span></a>
+    </li>
+
+    <!-- Nav Item - Laporan Harian -->
     <li class="nav-item <?php if($_SESSION['menu'] == 3){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>manr/kegiatan">
+        <a class="nav-link" href="admin-laporan-harian.php">
             <i class="far fa-fw fa-folder-open"></i>
-            <span>Kegiatan</span></a>
+            <span>Laporan Harian</span></a>
     </li>
 
     <!-- Nav Item - Rekap Laporan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 4){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>mandor/rekap-laporan">
+        <a class="nav-link" href="admin-laporan-bulanan.php">
             <i class="far fa-fw fa-folder-open"></i>
-            <span>Rekap Laporan</span></a>
+            <span>Laporan Bulanan</span></a>
     </li>
 
+     <li class="nav-item <?php if($_SESSION['menu'] == 5){ print "active"; } ?>">
+        <a class="nav-link" href="admin-pengguna.php">
+            <i class="far fa-fw fa-folder-open"></i>
+            <span>Kelola Pengguna</span></a>
+    </li>
     <br>
 
     <!-- Sidebar Toggler (Sidebar) -->

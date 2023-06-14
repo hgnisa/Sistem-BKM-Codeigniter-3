@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Model
+class userModel extends CI_Model
 {
 
     private $table = 'user';
@@ -31,7 +31,8 @@ class User extends CI_Model
     }
 
     public function update($data, $id)
-    { 
+    {
+        
         $data = $this->db->where($this->index, $id)->update($this->table, $data);
     }
 
@@ -40,10 +41,22 @@ class User extends CI_Model
         $this->db->delete($this->table, array($this->index => $id));
     }
 
+    ##################################################################################
+
     public function validate($username,$password,$type){
         $this->db->where('user_username', $username);
         $this->db->where('user_password', md5($password));
         $this->db->where('user_type', $type);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
+
+    public function validateUpdate($id,$username,$type)
+    {
+        $this->db->where('user_username', $username);
+        $this->db->where('user_type', $type);
+        $this->db->where('user_id !=', $id);
         
         $result = $this->db->get($this->table)->row();
         return $result;

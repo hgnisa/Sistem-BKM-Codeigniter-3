@@ -10,28 +10,28 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item <?php if($_SESSION['menu'] == 1){ print "active"; } ?>">
-        <a class="nav-link"href="<?php print base_url();?>mandor">
+        <a class="nav-link" href="mandor-index.php">
             <i class="fas fa-fw fa-home"></i>
             <span>Dashboard</span></a>
     </li>
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 2){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>mandor/absensi">
+        <a class="nav-link" href="mandor-absensi.php">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Absensi</span></a>
     </li>
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 3){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>manr/kegiatan">
+        <a class="nav-link" href="mandor-kegiatan.php">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Kegiatan</span></a>
     </li>
 
     <!-- Nav Item - Rekap Laporan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 4){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>mandor/rekap-laporan">
+        <a class="nav-link" href="mandor-rekap-laporan.php">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Rekap Laporan</span></a>
     </li>

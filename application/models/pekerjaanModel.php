@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Model
+class pekerjaanModel extends CI_Model
 {
 
-    private $table = 'user';
-    private $index = 'user_id';
+    private $table = 'pekerjaan';
+    private $index = 'pekerjaan_id';
 
     public function __construct()
     {
@@ -31,21 +31,12 @@ class User extends CI_Model
     }
 
     public function update($data, $id)
-    { 
+    {
         $data = $this->db->where($this->index, $id)->update($this->table, $data);
     }
 
     public function delete($id)
     {
         $this->db->delete($this->table, array($this->index => $id));
-    }
-
-    public function validate($username,$password,$type){
-        $this->db->where('user_username', $username);
-        $this->db->where('user_password', md5($password));
-        $this->db->where('user_type', $type);
-        
-        $result = $this->db->get($this->table)->row();
-        return $result;
     }
 }

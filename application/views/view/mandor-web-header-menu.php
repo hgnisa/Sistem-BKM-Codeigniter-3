@@ -5,37 +5,47 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-bell fa-fw"></i>
                 <?php 
-                    $count = count($notify); 
+                    $rekap = $kegiatan->show_sql("SELECT * FROM kegiatan WHERE keg_status = 'p' GROUP BY keg_date");
 
-                    if($count > 0){
+                    foreach($rekap as $c){  
+                        $count[] = $c['keg_date'];
+                    }  
+                    
+                    $notify = count($count); 
+
+                    if($notify > 0){
                         ?>
-                            <span class="badge badge-danger badge-counter"><?php print $count."+";?></span>
+                            <span class="badge badge-danger badge-counter"><?php print $notify."+";?></span>
                         <?php
                     }
-                ?>
+                    ?>
             </a>
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
-                    Notifikasi
+                    Alerts Center
                 </h6>
                 <?php 
-                if(count($notify) > 0){
-                    foreach($notify as $key => $value){
+                if(!empty($rekap)){
+                    foreach($rekap as $data){  
                         ?>
-                            <a class="dropdown-item d-flex align-items-center" href="" target="_blank">
+                            <a class="dropdown-item d-flex align-items-center" href="mandor-verifikasi.php?date=<?php print $data['keg_date'];?>" target="_blank">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-primary">
                                         <i class="fas fa-file-alt text-white"></i>
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="small text-black-500">Laporan <?php print date("d", $value->keg_timestamp)." ".date("m", $value->keg_timestamp)." ".date("Y", $value->keg_timestamp);?></div>
+                                    <div class="small text-black-500">Laporan <?php print date("d", $data['keg_timestamp'])." ".$kegiatan->month(date("m", $data['keg_timestamp']))." ".date("Y", $data['keg_timestamp']);?></div>
                                     <span class="font-weight-bold">Rekap Laporan belum diverifikasi.</span>
                                 </div>
                             </a>
                         <?php
                     }
+                }else{
+                    ?>
+                    <a class="dropdown-item text-center small text-gray-500" style="pointer-events: none; cursor: default;">Tidak ada notifikasi</a>
+                    <?php
                 }
                 ?>
                 <a class="text-center small text-gray-500" style="pointer-events: none; cursor: default; font-size: 10px">&nbsp;</a>
@@ -50,27 +60,28 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     <?php
-                        print $users->user_name;
+                        $userdata = $user->show_user_detail($_COOKIE['cook_id']);
+                        print ucwords($userdata['user_name']);
                     ?>
                 </span>
                 <?php
-                    if($users->user_profile){
-                        $imgurl = base_url()."img/profile/".$users->user_profile;
+                    if($userdata['user_profile']){
+                        $imgurl = "../../img/profile/".$userdata['user_profile'];
                     }else{
                         
-                        $imgurl = base_url()."img/profile-empty.jpg";
+                        $imgurl = "../../img/profile-empty.jpg";
                     }
                 ?>
                 <img class="img-profile rounded-circle" src="<?php print $imgurl;?>">
             </a>
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php print base_url();?>mandor/profile/<?php print $users->user_id;?>">
+                <a class="dropdown-item" href="mandor-edit-profile.php?id=<?php print $_COOKIE['cook_id'];?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profil
+                    Profile
                 </a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php print base_url();?>auth/logout" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     Logout
                 </a>
@@ -93,7 +104,7 @@
             <div class="modal-body">Pilih tombol "Keluar" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                <a class="btn btn-primary" href="<?php print base_url();?>auth/logout">Logout</a>
+                <a class="btn btn-primary" href="../../logout.php">Logout</a>
             </div>
         </div>
     </div>

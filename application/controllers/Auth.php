@@ -5,7 +5,7 @@ class Auth extends CI_Controller {
 
     function __construct(){
         parent::__construct();
-        $this->load->model('user', 'users');
+        $this->load->model('userModel', 'users');
 		$this->load->library('session');
     }
 
@@ -32,10 +32,7 @@ class Auth extends CI_Controller {
 				'last_login' => time()
 			);
 
-			$data = [
-				'user_lastlogin' => $sessionData["last_login"]
-			];
-			$update = $this->users->update($data, $sessionData["id"]);
+			$update = $this->users->update(array('user_lastlogin' => $sessionData["last_login"]), $sessionData["id"]);
 
             $this->session->set_userdata($sessionData);
 			if($type == 'admin'){

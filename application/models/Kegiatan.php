@@ -41,6 +41,11 @@ class Kegiatan extends CI_Model
     }
 
     ################################################################################
+    
+    public function getnotify($data = []){
+        $data = $this->db->query("SELECT * FROM kegiatan WHERE keg_status = 'p' GROUP BY keg_date");
+        return $data->result();
+    }
 
     public function month($data) {
         if($data == '1'){
@@ -71,7 +76,7 @@ class Kegiatan extends CI_Model
         return $result;
 	}
 
-    public function getrekap($month, $year, $data = []){
+    public function getRekap($month, $year, $data = []){
         $month = $month ? $month : date('m');
         $year = $year ? $year : date('Y');
 
@@ -82,27 +87,35 @@ class Kegiatan extends CI_Model
         return $data->result();
     }
 
-    public function showrekap($month, $year, $datarekap = []){
+    public function showRekap($month, $year){
         $rekap = $this->reports->getrekap($month, $year, '');
 
         foreach($rekap as $r){
-            ## nama pekerjaan
+            ## get pekerjaan name
             $name = $this->db->query("SELECT pekerjaan_name FROM pekerjaan WHERE pekerjaan_id = '$r->pekerjaan_id'")->row()->pekerjaan_name;
 
+            ## get total volume
+            $volume = $this->db->query("SELECT SUM(keg_volume) as volume FROM kegiatan WHERE keg_date = '$r->keg_date'")->row()->volume;
+
+            ## get all kavling
+            $kavlings = $this->db->query("SELECT b.kav_name as kavling FROM kegiatan a, kavling b WHERE a.kav_id = b.kav_id AND keg_date = '$r->keg_date'")->result();
+
+            foreach($kavlings as $k){
+                $kav[] = $k->kavling;
+            }
+
+            $kav = array_unique($kav);
             $datarekap[] = [
                 'date'     => $r->keg_date,
                 'name'     => $name,
-                'volume'   => $r->keg_volume,
-                'kavling'  => $r->kav_id,
+                'volume'   => $volume,
+                'kavling'  => implode(", ", $kav),
                 'status'   => $r->keg_status
             ];
-            var_dump($datarekap); print "<br><br>";
+            // var_dump($datarekap); print "<br><br>";
+            
         }
-    }
-
-    public function getnotify($data = []){
-        $data = $this->db->query("SELECT * FROM kegiatan WHERE keg_status = 'p' GROUP BY keg_date");
-        return $data->result();
+        return $datarekap;
     }
 
 }
