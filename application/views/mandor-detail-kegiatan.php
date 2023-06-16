@@ -63,17 +63,14 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <?php 
-                            // var_dump($kegiatan);
-                            
-                            
-                                // if($from == "verif"){
-                                //     $urlback = base_url()"mandor/verifikasi/date=".$kegiatan->keg_date;
-                                // }else{
-                                //     $urlback = "mandor-kegiatan.php?date=".$_GET['date'];
-                                // }
+                            <?php                             
+                            if($from == "verif"){
+                                $urlback = base_url()."mandor/verifikasi/".$date;
+                            }else{
+                                $urlback = base_url()."mandor/kegiatan?date=".$date;
+                            }
                             ?>
-                            <!-- <button onclick="window.location='<?php print $urlback;?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button> -->
+                            <button onclick="window.location='<?php print $urlback;?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
                         </div>
                     </div>
                     <div class="row">
@@ -86,8 +83,8 @@
                                     <div class="row">
                                         <div class="col-lg-4 mx-5 text-center">
                                             <?php 
-                                            if($kegiatan[0]->keg_image){
-                                                $imgurl = base_url()."img/kegiatan/".$kegiatan[0]->keg_image;
+                                            if($kegiatan['keg_image']){
+                                                $imgurl = base_url()."img/kegiatan/".$kegiatan['keg_image'];
                                             }else{
                                                 $imgurl = base_url()."img/image-empty.jpg";
                                             }
@@ -102,8 +99,7 @@
                                                     <td width="300">
                                                         <span class="small font-weight-bold">
                                                             <?php 
-                                                                list($year, $month, $day) = explode("-", $kegiatan[0]->keg_date);   
-                                                                print $day." ".$kegiatan->month($month)." ".$year;      
+                                                                print $fulldate;
                                                             ?>
                                                         </span>
                                                     </td>
@@ -113,8 +109,7 @@
                                                     <td>:</td>
                                                     <td><span class="small font-weight-bold">
                                                         <?php 
-                                                            $getpekerjaan = $pekerjaan->show_pekerjaan_detail($data['pekerjaan_id']);
-                                                            print $getpekerjaan['pekerjaan_name'];
+                                                            print $kegiatan['pekerjaan_name'];
                                                         ?>
                                                     </span></td>
                                                 </tr>
@@ -123,8 +118,7 @@
                                                     <td>:</td>
                                                     <td><span class="small font-weight-bold">
                                                         <?php 
-                                                           $getkav = $kavling->show_kavling_detail($data['kav_id']);
-                                                           print $getkav['kav_name'];
+                                                           print $kegiatan['kav_name'];
                                                         ?>
                                                     </span></td>
                                                 </tr>
@@ -133,48 +127,47 @@
                                                     <td width="50">:</td>
                                                     <td><span class="small font-weight-bold">
                                                         <?php 
-                                                           $getbhl = $user->show_user_detail($data['user_id']);
-                                                           print $getbhl['user_name'];
+                                                            print $kegiatan['user_name'];
                                                         ?>
                                                     </span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Volume</span></td>
                                                     <td>:</td>
-                                                    <td><span class="small font-weight-bold"><?php print $data['keg_volume'] ? $data['keg_volume'] : "-";?></span></td>
+                                                    <td><span class="small font-weight-bold"><?php print $kegiatan['keg_volume'] ? $kegiatan['keg_volume'] : "-";?></span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Satuan</span></td>
                                                     <td>:</td>
-                                                    <td><span class="small font-weight-bold"><?php print $data['keg_satuan'] ? $data['keg_satuan'] : "-";?></span></td>
+                                                    <td><span class="small font-weight-bold"><?php print $kegiatan['keg_satuan'] ? $kegiatan['keg_satuan'] : "-";?></span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Cuaca</span></td>
                                                     <td>:</td>
-                                                    <td><span class="small font-weight-bold"><?php print $data['keg_cuaca'] ? ucwords($data['keg_cuaca']) : "-";?></span></td>
+                                                    <td><span class="small font-weight-bold"><?php print $kegiatan['keg_cuaca'] ? ucwords($kegiatan['keg_cuaca']) : "-";?></span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Unit</span></td>
                                                     <td>:</td>
-                                                    <td><span class="small font-weight-bold"><?php print $data['keg_unit'] ? $data['keg_unit'] : "-";?></span></td>
+                                                    <td><span class="small font-weight-bold"><?php print $kegiatan['keg_unit'] ? $kegiatan['keg_unit'] : "-";?></span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Keterangan</span></td>
                                                     <td>:</td>
-                                                    <td><span class="small font-weight-bold"><?php print $data['keg_keterangan'] ? $data['keg_keterangan'] : "-" ;?></span></td>
+                                                    <td><span class="small font-weight-bold"><?php print $kegiatan['keg_keterangan'] ? $kegiatan['keg_keterangan'] : "-" ;?></span></td>
                                                 </tr>
                                                 <tr valign="top">
                                                     <td><span class="small">Status</span></td>
                                                     <td>:</td>
                                                     <td><span class="small font-weight-bold">
                                                         <?php
-                                                            if($data['keg_status'] == 'p'){
+                                                            if($kegiatan['keg_status'] == 'p'){
                                                                 ?>
                                                                     <span class="label label-warning">
                                                                         <i class="fas fa-clock fa-sm"></i> Belum disetujui
                                                                     </span>
                                                                 <?php
-                                                            }elseif($data['keg_status'] == 'y'){
+                                                            }elseif($kegiatan['keg_status'] == 'y'){
                                                                 ?>
                                                                 <span class="label label-success">
                                                                     <i class="fas fa-check fa-sm"></i> Disetujui

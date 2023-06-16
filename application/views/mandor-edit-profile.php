@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Sistem BKM - Edit Pengguna</title>
+    <title>Sistem BKM - Ubah Pengguna</title>
     <link href="<?php print base_url();?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="<?php print base_url();?>css/sb-admin-2.min.css" rel="stylesheet">
@@ -26,13 +26,13 @@
                 <?php require("mandor-web-header-menu.php"); ?>
                 <div class="container-fluid">
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Edit Pengguna</h1>
+                        <h1 class="h3 mb-0 text-gray-800">Ubah Pengguna</h1>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Edit Pengguna</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Ubah Pengguna</h6>
                                 </div>
                                 <div class="alert mt-3" id="alert" style="display: none;">
                                     <span class="closebtn"  onclick="this.parentElement.style.display='none';">&times;</span>
@@ -91,7 +91,7 @@
                                         ?>
                                         <div class="form-group row" id="mandorimage">
                                             <div class="col-sm-3 mt-2 form-input-sm">
-                                                <label for="mandorimage">Gambar</label>
+                                                <label for="mandorimage">Gambar Profil</label>
                                             </div>
                                             <div class="col-sm-6">
                                                 <input type="file" class="form-control form-input-sm" id="mandorimage" name="mandorimage">
@@ -101,7 +101,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-3 mt-2"></div>
                                             <div class="col-sm-9 form-inline mt-4">
-                                                <button type="submit" class="btn btn-primary btn-sm form-input-sm mt-0" style="margin-right: 8px"><i class="fa fa-edit fa-fw"></i> Edit 
+                                                <button type="submit" class="btn btn-primary btn-sm form-input-sm mt-0" style="margin-right: 8px"><i class="fa fa-edit fa-fw"></i> Ubah 
                                                 <button onclick="window.location='mandor-index.php'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
                                             </div>
                                         </div>

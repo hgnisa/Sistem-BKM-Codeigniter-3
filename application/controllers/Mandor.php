@@ -41,9 +41,6 @@ class Mandor extends MY_Controller {
 		$data['year'] = date('Y');
 		$data['month_name'] = $this->monthName($data['month']);
 		$data['rekap'] = $this->getRekap($data['month'], $data['year']);
-
-		## date detail reportss
-		$data['detail_rekap'] = $this->showRekap($data['month'], $data['year']);
 	
 		## data index
 		$this->load->view('mandor-index', $data);
@@ -108,7 +105,12 @@ class Mandor extends MY_Controller {
 		$this->load->helper('url');
 		$currentURL = current_url();
 		$params = $_SERVER['QUERY_STRING'];
-		$date = $params;
+		
+		if($params){
+			$date = str_replace("date=", "", $params);
+		}else{
+			$date = NULL;
+		}
 
 		## data user logged in
 		$userdata = $this->session->userdata();
@@ -125,53 +127,114 @@ class Mandor extends MY_Controller {
 		$this->load->view('mandor-kegiatan', $data);
 	}
 
-	public function detail($id)
+	public function detail($id, $date = NULL, $page = NULL)
 	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
-		$data['kegiatan'] = $this->reports->get(array('keg_id' => $id));
-		$data['date'] = $data['kegiatan'][0]->keg_id;
+		## notification
+		$data['notify'] = $this->getnotify();
+
+		## get full date
+		$data['fulldate'] = $this->showDate($date);
+
+		## get detail kegiatan
+		$data['kegiatan'] = $this->findKegiatan($id);
+		$data['from'] = $page;
+		$data['date'] = $date;
+
 		$this->load->view('mandor-detail-kegiatan', $data);
+	}
+
+	public function export()
+	{
+		$this->load->helper('url');
+		$currentURL = current_url();
+		$params = $_SERVER['QUERY_STRING'];
+		
+		if($params){
+			$date = str_replace("date=", "", $params);
+		}else{
+			$date = NULL;
+		}
+
+		## get kegiatan each date
+		$data['date'] = $date ? $date : date("Y-m-d"); 
+		$data['kegiatan'] = $this->getExport($data['date']);
+
+		## get month name
+		$getdate = explode("-", $data['date']);
+		$data['month_name'] = $this->monthName($getdate[1]);
+		$data['month_name_now'] = $this->monthName(date('m'));
+
+		$this->load->view('mandor-export-harian', $data);
+
+	}
+
+	public function rekap()
+	{
+		$this->load->helper('url');
+		$currentURL = current_url();
+		$params = $_SERVER['QUERY_STRING'];
+		$getparams = explode("&", $params);
+
+		if (isset($getparams[0])) {
+			$month = str_replace("m=", "", $getparams[0]);
+		}else{
+			$month = NULL;
+		}
+
+		if (isset($getparams[1])) {
+			$year = str_replace("y=", "", $getparams[1]);
+		}else{
+			$year = NULL;
+		}
+			
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+		## notification
+		$data['notify'] = $this->getnotify();
+
+		## get absensi
+		$data['month'] = $month ? $month : date('m'); 
+		$data['year'] = $year ? $year : date('Y');
+
+		$data['rekap'] = $this->getRekap($data['month'], $data['year']);
+	
+		## data index
+		$this->load->view('mandor-rekap-laporan', $data);
+	}
+
+	public function verifikasi($date)
+	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+		## notification
+		$data['notify'] = $this->getnotify();
+
+		## get month
+		$data['fulldate'] = $this->showDate($date);
+
+		$data['rekap'] = $this->getKegiatan($date);
+		$data['date'] = $date;
+
+		$this->load->view('mandor-verifikasi', $data);
 	}
 
 	###############################################################
 
-	public function getNotify($data = [])
+	public function getNotify($return = [])
 	{		
-		$data = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
-        return $data;
+		$return = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+        return $return;
 	}
 
-	public function monthName($data) 
-	{
-        if($data == '1'){
-            $result = "Januari";
-        }elseif($data == '2'){
-            $result = "Fabruari";
-        }elseif($data == '3'){
-            $result = "Maret";
-        }elseif($data == '4'){
-            $result = "April";
-        }elseif($data == '5'){
-            $result = "Mei";
-        }elseif($data == '6'){
-            $result = "Juni";
-        }elseif($data == '7'){
-            $result = "Juli";
-        }elseif($data == '8'){
-            $result = "Agustus";
-        }elseif($data == '9'){
-            $result = "September";
-        }elseif($data == '10'){
-            $result = "Oktober";
-        }elseif($data == '11'){
-            $result = "November";
-        }elseif($data == '12'){
-            $result = "Desember";
-        }
-        return $result;
-	}
-
-	public function getRekap($month, $year, $data = [])
+	public function getRekap($month, $year, $return = [])
 	{
         $month = $month ? $month : date('m');
         $year = $year ? $year : date('Y');
@@ -181,14 +244,7 @@ class Mandor extends MY_Controller {
 		
 		$data = $this->reports->groupBy(array('keg_date >=' => $start, 'keg_date <=' => $end), 'keg_date', 'keg_date', 'DESC');
 
-        return $data;
-    }
- 
-	public function showRekap($month, $year)
-	{
-        $rekap = $this->getrekap($month, $year, '');
-		
-        foreach($rekap as $r){
+        foreach($data as $r){
             ## get job name
 			$name = $this->jobs->find(array('pekerjaan_id' => $r->pekerjaan_id));
 			$name = $name->pekerjaan_name;
@@ -206,19 +262,19 @@ class Mandor extends MY_Controller {
             }
 
 			$kav = array_unique($kav);
-            $datarekap[] = [
-                'date'     => $r->keg_date,
-                'name'     => $name,
-                'volume'   => $volume,
-                'kavling'  => implode(", ", $kav),
-                'status'   => $r->keg_status
+            $return[] = [
+                'keg_date'     		=> $r->keg_date,
+                'pekerjaan_name'    => $name,
+                'keg_volume'   		=> $volume,
+                'kav_name'  		=> implode(", ", $kav),
+                'keg_status'   		=> $r->keg_status
             ];
             
         }
-        return $datarekap;
+        return $return;
     }
 
-	public function getAbsensi($month, $year, $dataabsensi = [])
+	public function getAbsensi($month, $year, $return = [])
 	{
 		$month = $month ? $month : date('m');
         $year = $year ? $year : date('Y');
@@ -250,27 +306,24 @@ class Mandor extends MY_Controller {
             }
 
 			$kav = array_unique($kav);
-			$dataabsensi[] = [
-                'id'     		=> $value->keg_id,
-                'date'     		=> $value->keg_date,
-                'name'     		=> $bhl,
-                'pekerjaan'   	=> $name,
-                'cuaca' 		=> $value->keg_cuaca,
-                'kavling' 		=> implode(", ", $kav),
-                'waktu'   		=> $value->keg_timestamp,
-                'image'   		=> $value->keg_image
+			$return[] = [
+                'keg_id'     		=> $value->keg_id,
+                'keg_date'     		=> $value->keg_date,
+                'user_name'     	=> $bhl,
+                'pekerjaan_name'   	=> $name,
+                'keg_cuaca' 		=> $value->keg_cuaca,
+                'kav_name' 			=> implode(", ", $kav),
+                'keg_timestamp'   	=> $value->keg_timestamp,
+                'keg_image'   		=> $value->keg_image
             ];
             
         }
-        return $dataabsensi;
+        return $return;
 	}
 
-	public function getKegiatan($date, $datakegiatan = [])
+	public function getKegiatan($date, $return = [])
 	{
 		$date = $date ? $date : date('Y-m-d');
-
-		## testing
-		$date = '2023-06-18';
 
 		$data = $this->reports->findOrder('', array('keg_date' => $date), 'keg_date', 'DESC');
 		foreach($data as $value){
@@ -285,19 +338,157 @@ class Mandor extends MY_Controller {
             ## get  kavling
 			$kavlings = $this->kavs->find(array('kav_id' => $value->kav_id));
 
-			$datakegiatan[] = [
-                'id'     		=> $value->keg_id,
-				'name'   		=> $name,
-                'bhl'     		=> $bhl,
-                'volume'		=> $value->keg_volume,
-                'satuan'		=> $value->keg_satuan,
-                'cuaca' 		=> $value->keg_cuaca,
-                'kavling' 		=> $kavlings->kav_name,
+			$return[] = [
+                'keg_id'     		=> $value->keg_id,
+				'pekerjaan_name'   	=> $name,
+                'user_name'     	=> $bhl,
+                'keg_volume'		=> $value->keg_volume,
+                'keg_satuan'		=> $value->keg_satuan,
+                'keg_cuaca' 		=> $value->keg_cuaca,
+                'kav_name' 			=> $kavlings->kav_name,
             ];
-            
         }
-		
-		return $datakegiatan;
+		return $return;
+	}
 
+	public function findKegiatan($id, $return = [])
+	{
+		$val = $this->reports->find(array('keg_id' => $id));
+
+		## get job name
+		$job = $this->jobs->find(array('pekerjaan_id' => $val->pekerjaan_id));
+		$job = $job->pekerjaan_name;
+
+		## get bhl name
+		$bhl = $this->users->find(array('user_id' => $val->user_id));
+		$bhl = $bhl->user_name;
+
+		## get kavling name
+		$kav = $this->kavs->find(array('kav_id' => $val->kav_id));
+
+		$return = [
+			'keg_id'     		=> $val->keg_id,
+			'user_name'     	=> $bhl,
+			'pekerjaan_name'   	=> $job,
+			'kav_name' 			=> $kav->kav_name,
+			'keg_date'			=> $val->keg_date,
+			'keg_timestamp'		=> $val->keg_timestamp,
+			'keg_volume'		=> $val->keg_volume,
+			'keg_satuan'		=> $val->keg_satuan,
+			'keg_cuaca' 		=> $val->keg_cuaca,
+			'keg_image' 		=> $val->keg_image,
+			'keg_unit' 			=> $val->keg_unit,
+			'keg_keterangan' 	=> $val->keg_keterangan,
+			'keg_status' 		=> $val->keg_status,
+		];  
+		return $return;
+	}
+
+	public function getExport($date, $return = [])
+	{
+		$data = $this->reports->groupBy(array('keg_date' => $date), 'pekerjaan_id');
+
+		foreach($data as $e){
+            ## get job name
+			$job = $this->jobs->find(array('pekerjaan_id' => $e->pekerjaan_id));
+			$job = $job->pekerjaan_name;
+
+			## get bhl name
+			$bhl = $this->users->find(array('user_id' => $e->user_id));
+			$bhl = $bhl->user_name;
+
+            ## get total volume
+			$volume = $this->reports->sum('keg_volume', array('pekerjaan_id' => $e->pekerjaan_id, 'keg_date' => $e->keg_date));
+			$volume = $volume[0]->keg_volume;
+
+            ## get all kavling
+			unset($kavlings);
+			unset($kav);
+			$kavlings = $this->reports->join('kav_name', 'kavling', 'kegiatan.kav_id = kavling.kav_id', array('pekerjaan_id' => $e->pekerjaan_id, 'keg_date' => $e->keg_date));
+
+            foreach($kavlings as $k){
+                $kav[] = $k->kav_name;
+            }
+
+			$kav = array_unique($kav);
+            $return[] = [
+                'date'     => $e->keg_date,
+                'job'     => $job,
+                'bhl'     => $bhl,
+                'volume'   => $volume,
+                'satuan'   => $e->keg_satuan,
+                'kavling'  => implode(", ", $kav),
+            ];   
+        }
+		return $return;
+	}
+
+	public function verify($status, $date)
+	{
+		$update = $this->reports->verifyKegiatan($status, $date);
+		redirect('mandor/rekap');
+	}
+
+	public function showDate($date, $return = NULL){
+		$getdate = explode("-", $date);
+
+		if($getdate[1] == '1'){
+            $month = "Januari";
+        }elseif($getdate[1] == '2'){
+            $month = "Fabruari";
+        }elseif($getdate[1] == '3'){
+            $month = "Maret";
+        }elseif($getdate[1] == '4'){
+            $month = "April";
+        }elseif($getdate[1] == '5'){
+            $month = "Mei";
+        }elseif($getdate[1] == '6'){
+            $month = "Juni";
+        }elseif($getdate[1] == '7'){
+            $month = "Juli";
+        }elseif($getdate[1] == '8'){
+            $month = "Agustus";
+        }elseif($getdate[1] == '9'){
+            $month = "September";
+        }elseif($getdate[1] == '10'){
+            $month = "Oktober";
+        }elseif($getdate[1] == '11'){
+            $month = "November";
+        }elseif($getdate[1] == '12'){
+            $month = "Desember";
+        }
+
+		$return = $getdate[2]." ".$month." ".$getdate[0];
+		return $return;
+	}
+
+	public function monthName($month, $monthname = NULL){
+		if($month == '1'){
+            $monthname = "Januari";
+        }elseif($month == '2'){
+            $monthname = "Fabruari";
+        }elseif($month == '3'){
+            $monthname = "Maret";
+        }elseif($month == '4'){
+            $monthname = "April";
+        }elseif($month == '5'){
+            $monthname = "Mei";
+        }elseif($month == '6'){
+            $monthname = "Juni";
+        }elseif($month == '7'){
+            $monthname = "Juli";
+        }elseif($month == '8'){
+            $monthname = "Agustus";
+        }elseif($month == '9'){
+            $monthname = "September";
+        }elseif($month == '10'){
+            $monthname = "Oktober";
+        }elseif($month == '11'){
+            $monthname = "November";
+        }elseif($month == '12'){
+            $monthname = "Desember";
+        }
+
+		return $monthname;
 	}
 }

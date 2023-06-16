@@ -1,5 +1,6 @@
 <?php
     $_SESSION['menu'] = 1;
+    date_default_timezone_set("Asia/Jakarta");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -117,134 +118,48 @@
                                                     <th class="text-center" width="110">Tanggal</th>
                                                     <th class="text-center">Jenis Pekerjaan</th>
                                                     <th class="text-center" width="120">Jumlah Volume Satuan</th>
-                                                    <th class="text-center" width="200">Kavling</th>
+                                                    <th class="text-center" width="250">Kavling</th>
                                                     <th class="text-center" width="150">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    if(count($detail_rekap) > 0){
+                                                    if(count($rekap) > 0){
                                                         $no = 1;
-                                                        foreach($detail_rekap as $key => $data){
+                                                        foreach($rekap as $key => $data){
                                                             if($no < 11){
                                                                 ?>
-                                                                    <tr>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                                $dates = strtotime($data['date']);
-                                                                                print date('d/m/y',$dates);
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                                print $data['volume'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['kavling'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                            if($data['status'] == "y"){
-                                                                                ?>
-                                                                                    <span class="label label-success">
-                                                                                        <i class="fas fa-check fa-sm"></i> Diterima
-                                                                                    </span>
-                                                                                <?php
-                                                                            }elseif($data['status'] == "n"){
-                                                                                ?>
-                                                                                    <span class="label label-danger">
-                                                                                        <i class="fas fa-times fa-sm"></i> Ditolak
-                                                                                    </span>
-                                                                                <?php
-                                                                            }else{
-                                                                                ?> 
-                                                                                <span class="label label-warning">
-                                                                                    <i class="fas fa-clock fa-sm"></i> Belum disetujui
-                                                                                </span>
-                                                                                <?php
-                                                                            }
-                                                                            ?>
-                                                                        </td>
-                                                                    </tr>
-                                                                <?php
-                                                            }
-                                                            $no++;
-                                                        }
-
-                                                    }
-                                                
-                                                
-                                                /*
-                                                    $range1 = $year."-".$month."-01";
-                                                    $range2 = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
-                                                    $whereclause = "WHERE keg_date BETWEEN '$range1' AND '$range2'";
-
-                                                    $sql = "SELECT  * FROM kegiatan $whereclause GROUP BY keg_date ORDER BY keg_date DESC";
-                                                    $query = $kegiatan->show_sql($sql);
-                                                    if(count($query) > 0){
-                                                        $no = 1;
-                                                        foreach($query as $data){
-                                                            ## hanya tampilkan 10 rows data di dashboard
-                                                            if($no < 11){
-                                                                ?>
-                                                                    <?php
-                                                                        unset($namapkj);
-                                                                        unset($totalkav);
-                                                                        $totalvolume = 0;
-                                                                        $sql = "SELECT * FROM kegiatan WHERE keg_date = '{$data['keg_date']}'";
-                                                                        $datakegiatan = $kegiatan->show_sql($sql);
-                                                                        foreach($datakegiatan as $datakeg){
-                                                                            $namapkj[] = $pekerjaan->show_pekerjaan_detail($datakeg['pekerjaan_id'])['pekerjaan_name'];
-
-                                                                            $totalvolume += $datakeg['keg_volume'];
-
-                                                                            $totalkav[] = $datakeg['kav_id'];
-
-                                                                            if($datakeg['keg_status'] == 'p'){
-                                                                                $totalstatus = 'p';
-                                                                            }elseif($datakeg['keg_status'] == 'n'){
-                                                                                $totalstatus = 'n';
-                                                                            }else{
-                                                                                $totalstatus = 'y';
-                                                                            }
-                                                                        }
-                                                                    ?>
                                                                     <tr>
                                                                         <td align="center">
                                                                             <?php 
                                                                                 $dates = strtotime($data['keg_date']);
                                                                                 print date('d/m/y',$dates);
                                                                             ?>
-                                                                        </td>    
-                                                                        <td><?php print implode(', ', $namapkj); ?></td>
-                                                                        <td align="center"><?php print $totalvolume;?></td>
+                                                                        </td>
                                                                         <td>
                                                                             <?php 
-                                                                                unset($datakavling);
-                                                                                foreach($totalkav as $kav){     
-                                                                                    $getkav = $kavling->show_kavling_detail($kav['kav_id']);   
-                                                                                    $datakavling[] = $getkav['kav_name'];
-                                                                                }
-                                                                                print implode(', ', array_unique($datakavling))
+                                                                                print $data['pekerjaan_name'];
                                                                             ?>
                                                                         </td>
                                                                         <td align="center">
                                                                             <?php 
-                                                                            if($totalstatus == "y"){
+                                                                                print $data['keg_volume'];
+                                                                            ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php 
+                                                                                print $data['kav_name'];
+                                                                            ?>
+                                                                        </td>
+                                                                        <td align="center">
+                                                                            <?php 
+                                                                            if($data['keg_status'] == "y"){
                                                                                 ?>
                                                                                     <span class="label label-success">
                                                                                         <i class="fas fa-check fa-sm"></i> Diterima
                                                                                     </span>
                                                                                 <?php
-                                                                            }elseif($totalstatus == "n"){
+                                                                            }elseif($data['keg_status'] == "n"){
                                                                                 ?>
                                                                                     <span class="label label-danger">
                                                                                         <i class="fas fa-times fa-sm"></i> Ditolak
@@ -260,16 +175,15 @@
                                                                             ?>
                                                                         </td>
                                                                     </tr>
-                                                                    </tr>
                                                                 <?php
                                                             }
                                                             $no++;
                                                         }
                                                     }
-                                                */?>
+                                                ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="<?php print base_url();?>mandor/rekap-laporan">Lihat Rekap Laporan &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>mandor/rekap">Lihat Rekap Laporan &rarr;</a>
                                     </div>
                                 </div>
                             </div>

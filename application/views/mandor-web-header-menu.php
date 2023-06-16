@@ -23,7 +23,7 @@
                 if(count($notify) > 0){
                     foreach($notify as $key => $value){
                         ?>
-                            <a class="dropdown-item d-flex align-items-center" href="" target="_blank">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verifikasi/<?php print $value->keg_date;?>" target="_blank">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-primary">
                                         <i class="fas fa-file-alt text-white"></i>
@@ -72,7 +72,7 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="<?php print base_url();?>auth/logout" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    Keluar
                 </a>
             </div>
         </li>
@@ -93,7 +93,7 @@
             <div class="modal-body">Pilih tombol "Keluar" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                <a class="btn btn-primary" href="<?php print base_url();?>auth/logout">Logout</a>
+                <a class="btn btn-primary" href="<?php print base_url();?>auth/logout">Keluar</a>
             </div>
         </div>
     </div>

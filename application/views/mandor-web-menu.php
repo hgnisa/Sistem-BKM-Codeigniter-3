@@ -31,7 +31,7 @@
 
     <!-- Nav Item - Rekap Laporan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 4){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>mandor/rekap-laporan">
+        <a class="nav-link" href="<?php print base_url();?>mandor/rekap">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Rekap Laporan</span></a>
     </li>

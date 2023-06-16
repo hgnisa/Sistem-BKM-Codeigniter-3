@@ -47,12 +47,11 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Kegiatan</h6>
                                 </div>
                                 <div class="card-body">
-                                    <!-- <a href="mandor-export-harian.php?date=<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>        -->
-                                    <?php /*
-                                    <form action="mandor-kegiatan.php" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                    <a href="<?php print base_url();?>mandor/export?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>    
+                                    <form action="<?php print base_url();?>mandor/kegiatan" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                         <div class="input-group">
                                             <label>Filter berdasarkan tanggal: &nbsp;</label>
-                                            <input type="date" name="date" class="form-control bg-light border-1 small" placeholder="Cari" aria-label="Search" aria-describedby="basic-addon2" value="<?php print empty($_GET['date']) ? date("Y-m-d") : date_format(date_create($_GET['date']),"Y-m-d");?>">
+                                            <input type="date" name="date" class="form-control bg-light border-1 small" placeholder="Cari" aria-label="Search" aria-describedby="basic-addon2" value="<?php print empty($date) ? date("Y-m-d") : date_format(date_create($date),"Y-m-d");?>">
                                             <div class="input-group-append input-sm">
                                                 <button type="submit" class="btn btn-small btn-primary">
                                                     <i class="fas fa-search fa-sm"></i>
@@ -60,7 +59,6 @@
                                             </div>
                                         </div>
                                     </form>
-                                    */ ?>
                                     <div class="table-responsive" style="margin-top: 30px; margin-bottom: 30px">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
@@ -83,18 +81,18 @@
                                                             <tr>
                                                                 <td align="center"><?php print $no; ?></td>
                                                                 <td>
-                                                                    <?php print $data['name']; ?>
+                                                                    <?php print $data['pekerjaan_name']; ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php print $data['bhl']; ?>
+                                                                    <?php print $data['user_name']; ?>
                                                                 </td>
-                                                                <td align="center"><?php print $data['volume']; ?></td>
-                                                                <td align="center"><?php print $data['satuan']; ?></td>
+                                                                <td align="center"><?php print $data['keg_volume']; ?></td>
+                                                                <td align="center"><?php print $data['keg_satuan']; ?></td>
                                                                 <td>
-                                                                    <?php print $data['kavling']; ?>
+                                                                    <?php print $data['kav_name']; ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <a href="<?php print base_url();?>mandor/detail/<?php print $data['id']; ?>" title="Detail Kegiatan">
+                                                                    <a href="<?php print base_url();?>mandor/detail/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
                                                                         <i class="fa fas-form fa-list"></i>
                                                                     </a>&nbsp;&nbsp;
                                                                 </td>

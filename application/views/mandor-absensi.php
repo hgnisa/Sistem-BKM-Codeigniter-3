@@ -1,5 +1,6 @@
 <?php
     $_SESSION['menu'] = 2;
+    date_default_timezone_set("Asia/Jakarta");
 ?>
 
 <!DOCTYPE html>
@@ -103,28 +104,28 @@
                                                             <tr>
                                                                 <td align="center">
                                                                     <?php 
-                                                                    $dates = strtotime($data['date']);
+                                                                    $dates = strtotime($data['keg_date']);
                                                                     print date('d/m/y',$dates);
                                                                     ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php print $data['name']; ?>
+                                                                    <?php print $data['user_name']; ?>
                                                                 </td>
                                                                 <td>
-                                                                    <?php print $data['pekerjaan']; ?>
+                                                                    <?php print $data['pekerjaan_name']; ?>
                                                                 </td>
-                                                                <td align="center"><?php print ucwords($data['cuaca']);?></td>
+                                                                <td align="center"><?php print ucwords($data['keg_cuaca']);?></td>
                                                                 <td>
-                                                                    <?php print $data['kavling']; ?>
+                                                                    <?php print $data['kav_name']; ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <?php print date("d M Y H:i:s", $data['waktu']); ?>
+                                                                    <?php print date("d M Y H:i:s", $data['keg_timestamp']); ?>
                                                                 </td>
                                                                 <td class="text-center"> 
                                                                     <?php
-                                                                        if($data['image']){
+                                                                        if($data['keg_image']){
                                                                             ?>
-                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="<?php print base_url();?>mandor/modal/<?php print $data['id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
+                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="<?php print base_url();?>mandor/modal/<?php print $data['keg_id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
                                                                             <?php
                                                                         }
                                                                     ?>
