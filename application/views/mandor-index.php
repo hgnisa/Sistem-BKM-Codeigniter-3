@@ -123,7 +123,6 @@
                                             </thead>
                                             <tbody>
                                                 <?php 
-                                                    var_dump($rekap);
                                                     if(count($detail_rekap) > 0){
                                                         $no = 1;
                                                         foreach($detail_rekap as $key => $data){

@@ -38,18 +38,6 @@
                         <h1 class="h3 mb-0 text-gray-800">Absensi</h1>
                     </div>
                     <div class="row">
-                    <?php                                
-                        ## always show by today or filtered kegiatan
-                        if(!empty($month) and !empty($year)){
-                            $month = $month;
-                            $year = $year;
-                        }else{
-                            $month = date("m");
-                            $year = date("Y");
-                        }
-
-                        $url = "?month=$month&year=$year&";
-                    ?>
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
@@ -57,10 +45,10 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="col-lg-12">
-                                        <form action="mandor-absensi.php" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                        <form action="<?php print base_url();?>mandor/absensi" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                             <div class="input-group">
                                                 <label>Filter berdasarkan bulan: &nbsp;</label>
-                                                <select name="month" size='1' class="form-control bg-light border-1 small" placeholder="Cari"
+                                                <select name="m" size='1' class="form-control bg-light border-1 small" placeholder="Cari"
                                                     aria-label="Search" aria-describedby="basic-addon2" style="width: 130px">
                                                     <option value="01" <?php print $month == '01' ? "selected" : "";?>>Januari</option>
                                                     <option value="02" <?php print $month == '02' ? "selected" : "";?>>Februari</option>
@@ -75,7 +63,7 @@
                                                     <option value="11" <?php print $month == '11' ? "selected" : "";?>>November</option>
                                                     <option value="12" <?php print $month == '12' ? "selected" : "";?>>Desember</option>
                                                 </select>
-                                                <select name="year" class="form-control bg-light border-1 small" style="width: 90px">
+                                                <select name="y" class="form-control bg-light border-1 small" style="width: 90px">
                                                     <?php
                                                     for($i=date("Y")-5;$i<=date("Y");$i++) {
                                                         $sel = ($i == date('Y')) ? 'selected' : '';
@@ -130,17 +118,16 @@
                                                                     <?php print $data['kavling']; ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <?php print $data['waktu']; ?>
+                                                                    <?php print date("d M Y H:i:s", $data['waktu']); ?>
                                                                 </td>
                                                                 <td class="text-center"> 
                                                                     <?php
                                                                         if($data['image']){
                                                                             ?>
-                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="mandor-modal-kegiatan.php?id=<?php print $data['id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
+                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="<?php print base_url();?>mandor/modal/<?php print $data['id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
                                                                             <?php
                                                                         }
                                                                     ?>
-                                                                    
                                                                 </td>
                                                             </tr>
                                                             <?php

@@ -24,7 +24,7 @@
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 3){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>manr/kegiatan">
+        <a class="nav-link" href="<?php print base_url();?>mandor/kegiatan">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Kegiatan</span></a>
     </li>
