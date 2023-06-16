@@ -22,6 +22,8 @@
                 <?php 
                 if(count($notify) > 0){
                     foreach($notify as $key => $value){
+                        $dates = strtotime($value->keg_date);
+                        $dates = date('d/m/y',$dates);
                         ?>
                             <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verifikasi/<?php print $value->keg_date;?>" target="_blank">
                                 <div class="mr-3">
@@ -30,7 +32,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <div class="small text-black-500">Laporan <?php print date("d", $value->keg_timestamp)." ".date("m", $value->keg_timestamp)." ".date("Y", $value->keg_timestamp);?></div>
+                                    <div class="small text-black-500">Laporan <?php print $dates?></div>
                                     <span class="font-weight-bold">Rekap Laporan belum diverifikasi.</span>
                                 </div>
                             </a>

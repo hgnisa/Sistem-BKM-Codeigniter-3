@@ -343,7 +343,7 @@ class Mandor extends MY_Controller {
 				'pekerjaan_name'   	=> $name,
                 'user_name'     	=> $bhl,
                 'keg_volume'		=> $value->keg_volume,
-                'keg_satuan'		=> $value->keg_satuan,
+                'keg_satuan'		=> strtoupper($value->keg_satuan),
                 'keg_cuaca' 		=> $value->keg_cuaca,
                 'kav_name' 			=> $kavlings->kav_name,
             ];
@@ -374,7 +374,7 @@ class Mandor extends MY_Controller {
 			'keg_date'			=> $val->keg_date,
 			'keg_timestamp'		=> $val->keg_timestamp,
 			'keg_volume'		=> $val->keg_volume,
-			'keg_satuan'		=> $val->keg_satuan,
+			'keg_satuan'		=> strtoupper($val->keg_satuan),
 			'keg_cuaca' 		=> $val->keg_cuaca,
 			'keg_image' 		=> $val->keg_image,
 			'keg_unit' 			=> $val->keg_unit,
@@ -416,7 +416,7 @@ class Mandor extends MY_Controller {
                 'job'     => $job,
                 'bhl'     => $bhl,
                 'volume'   => $volume,
-                'satuan'   => $e->keg_satuan,
+                'satuan'   => strtoupper($e->keg_satuan),
                 'kavling'  => implode(", ", $kav),
             ];   
         }
