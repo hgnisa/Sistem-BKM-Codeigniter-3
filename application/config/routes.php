@@ -54,3 +54,5 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['/'] = 'welcome/index';
+
+$route['admin/pengguna/(:any)'] = 'pengguna/index/$1';

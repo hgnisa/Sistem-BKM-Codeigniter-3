@@ -52,6 +52,14 @@ class userModel extends CI_Model
         return $result;
     }
 
+    public function validateAdd($username,$type){
+        $this->db->where('user_username', $username);
+        $this->db->where('user_type', $type);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
+
     public function validateUpdate($id,$username,$type)
     {
         $this->db->where('user_username', $username);

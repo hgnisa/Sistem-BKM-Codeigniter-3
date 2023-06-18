@@ -10,13 +10,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Sistem BKM  - Laporan Harian</title>
-    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php print base_url();?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../../css/sb-admin-2-new.css" rel="stylesheet">
-    <link href="../../vendor/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
-    <link href="../../vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-    <script src="../../js/jquery.min.js"></script>
+    <link href="<?php print base_url();?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php print base_url();?>css/sb-admin-2-new.css" rel="stylesheet">
+    <link href="<?php print base_url();?>vendor/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
+    <link href="<?php print base_url();?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="<?php print base_url();?>js/jquery.min.js"></script>
     <script>
         $(document).ready( function () {
             $('#dataTable').dataTable( {
@@ -76,45 +76,31 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                /*
-                                                    $whereClause="keg_date = '$date'";
-
-                                                    $sql = "SELECT * FROM kegiatan ORDER BY keg_date DESC";
-                                                    if($whereClause){
-                                                        $whereClause=" WHERE $whereClause";
-                                                        $sql="SELECT * FROM kegiatan $whereClause ORDER BY keg_date DESC";
-                                                    }
-
-                                                    $query = $kegiatan->show_sql($sql);
-                                                    if(count($query) > 0){
+                                                    if(count($kegiatan) > 0){
                                                         $no = 1;
-                                                        foreach($query as $data){
+                                                        foreach($kegiatan as $data){
                                                             ?>
                                                                 <tr>
                                                                     <td align="center"><?php print $no; ?></td>
                                                                     <td>
-                                                                        <?php
-                                                                            $getpekerjaan = $pekerjaan->show_pekerjaan_detail($data['pekerjaan_id']);
-                                                                                
-                                                                            print $getpekerjaan['pekerjaan_name'];
+                                                                        <?php 
+                                                                            print $data['pekerjaan_name'];
                                                                         ?>
                                                                     </td>
                                                                     <td>
-                                                                        <?php
-                                                                            $getbhl = $user->show_user_detail($data['user_id']);
-                                                                            print $getbhl['user_name'];
+                                                                        <?php 
+                                                                            print $data['user_name'];
                                                                         ?>
                                                                     </td>
                                                                     <td align="center"><?php print $data['keg_volume'];?></td>
                                                                     <td align="center"><?php print $data['keg_satuan'];?></td>
                                                                     <td>
-                                                                        <?php
-                                                                            $getkav = $kavling->show_kavling_detail($data['kav_id']);
-                                                                            print $getkav['kav_name'];
+                                                                        <?php 
+                                                                            print $data['kav_name'];
                                                                         ?>
                                                                     </td>
                                                                     <td align="center">
-                                                                        <a href="admin-detail-kegiatan.php?id=<?php print $data['keg_id'];?>&date=<?php print $date;?>" title="Detail Kegiatan">
+                                                                        <a href="<?php print base_url();?>admin/detail/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
                                                                             <i class="fa fas-form fa-list"></i>
                                                                         </a>&nbsp;&nbsp;
                                                                     </td>
@@ -123,7 +109,7 @@
                                                             $no++;
                                                         }
                                                     }
-                                                */ ?>
+                                                ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -140,13 +126,13 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../js/jquery.easing.1.3.js"></script>
-    <script src="../../js/sb-admin-2.min.js"></script>
-    <script src="../../vendor/chart.js/Chart.min.js"></script>
-    <script src="../../vendor/datatables/jquery.dataTables.min.js"></script>
-    <script src="../../vendor/datatables/dataTables.bootstrap4.min.js"></script>
-    <script src="../../js/demo/datatables-demo.js"></script>
+    <script src="<?php print base_url();?>js/jquery.min.js"></script>
+    <script src="<?php print base_url();?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php print base_url();?>js/jquery.easing.1.3.js"></script>
+    <script src="<?php print base_url();?>js/sb-admin-2.min.js"></script>
+    <script src="<?php print base_url();?>vendor/chart.js/Chart.min.js"></script>
+    <script src="<?php print base_url();?>vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="<?php print base_url();?>vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script src="<?php print base_url();?>js/demo/datatables-demo.js"></script>
 </body>
 </html>
