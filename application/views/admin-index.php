@@ -1,15 +1,4 @@
 <?php
-    include '../model/connection.php';
-    include '../model/class-user.php';
-    include '../model/class-kegiatan.php';
-    include '../model/class-pekerjaan.php';
-    include '../model/class-kavling.php';
-    $user = new user(); 
-    $kegiatan = new kegiatan(); 
-    $pekerjaan = new pekerjaan(); 
-    $kavling = new kavling(); 
-
-    session_start();
     $_SESSION['menu'] = 1;
 ?>
 <!DOCTYPE html>
@@ -21,10 +10,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Sistem BKM  - Dashboard</title>
-    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="<?php print base_url();?>vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-    <link href="../../css/sb-admin-2.min.css" rel="stylesheet">
-    <link href="../../vendor/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
+    <link href="<?php print base_url();?>css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="<?php print base_url();?>vendor/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
     <style>
         .table-responsive{
             font-size: small;
@@ -79,55 +68,23 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" sssid="dataTable" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" width="110">Tanggal</th>
                                                     <th class="text-center">Jenis Pekerjaan</th>
-                                                    <th class="text-center" width="150">Jumlah Volume Satuan</th>
-                                                    <th class="text-center" width="180">Kavling</th>
+                                                    <th class="text-center" width="120">Jumlah Volume Satuan</th>
+                                                    <th class="text-center" width="250">Kavling</th>
                                                     <th class="text-center" width="150">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php
-                                                    $filtered = date('Y')."-".date('m');
-                                                    $range1 = $filtered."-01";
-                                                    $range2 = $filtered."-".date("t", strtotime($filtered."-01"));
-                                                    
-                                                    $whereclause = "WHERE keg_date BETWEEN '$range1' AND '$range2'";
-
-                                                    $sql = "SELECT  * FROM kegiatan $whereclause GROUP BY keg_date ORDER BY keg_date DESC";
-                                                    $datatanggal = $kegiatan->show_sql($sql);
-                                                    if(count($datatanggal) > 0){
+                                                <?php 
+                                                    if(count($harian) > 0){
                                                         $no = 1;
-                                                        foreach($datatanggal as $data){
-                                                            ## hanya tampilkan 10 rows data di dashboard
+                                                        foreach($harian as $key => $data){
                                                             if($no < 11){
                                                                 ?>
-                                                                    <?php
-                                                                        unset($namapkj);
-                                                                        unset($totalkav);
-                                                                        $totalvolume = 0;
-                                                                        $sql = "SELECT * FROM kegiatan WHERE keg_date = '{$data['keg_date']}'";
-                                                                        $datakegiatan = $kegiatan->show_sql($sql);
-                                                                        foreach($datakegiatan as $datakeg){
-
-                                                                            $namapkj[] = $pekerjaan->show_pekerjaan_detail($datakeg['pekerjaan_id'])['pekerjaan_name'];
-
-                                                                            $totalvolume += $datakeg['keg_volume'];
-
-                                                                            $totalkav[] = $datakeg['kav_id'];
-
-                                                                            if($datakeg['keg_status'] == 'p'){
-                                                                                $totalstatus = 'p';
-                                                                            }elseif($datakeg['keg_status'] == 'n'){
-                                                                                $totalstatus = 'n';
-                                                                            }else{
-                                                                                $totalstatus = 'y';
-                                                                            }
-                                                                        }
-                                                                    ?>
                                                                     <tr>
                                                                         <td align="center">
                                                                             <?php 
@@ -135,27 +92,30 @@
                                                                                 print date('d/m/y',$dates);
                                                                             ?>
                                                                         </td>
-                                                                        <td><?php print implode(', ', array_unique($namapkj)); ?></td>
-                                                                        <td align="center"><?php print $totalvolume;?></td>
                                                                         <td>
                                                                             <?php 
-                                                                                unset($datakavling);
-                                                                                foreach($totalkav as $kav){     
-                                                                                    $getkav = $kavling->show_kavling_detail($kav['kav_id']);   
-                                                                                    $datakavling[] = $getkav['kav_name'];
-                                                                                }
-                                                                                print implode(', ', array_unique($datakavling))
+                                                                                print $data['pekerjaan_name'];
                                                                             ?>
                                                                         </td>
                                                                         <td align="center">
                                                                             <?php 
-                                                                            if($totalstatus == "y"){
+                                                                                print $data['keg_volume'];
+                                                                            ?>
+                                                                        </td>
+                                                                        <td>
+                                                                            <?php 
+                                                                                print $data['kav_name'];
+                                                                            ?>
+                                                                        </td>
+                                                                        <td align="center">
+                                                                            <?php 
+                                                                            if($data['keg_status'] == "y"){
                                                                                 ?>
                                                                                     <span class="label label-success">
                                                                                         <i class="fas fa-check fa-sm"></i> Diterima
                                                                                     </span>
                                                                                 <?php
-                                                                            }elseif($totalstatus == "n"){
+                                                                            }elseif($data['keg_status'] == "n"){
                                                                                 ?>
                                                                                     <span class="label label-danger">
                                                                                         <i class="fas fa-times fa-sm"></i> Ditolak
@@ -175,19 +135,11 @@
                                                             }
                                                             $no++;
                                                         }
-                                                    }else{
-                                                        ?>
-                                                            <tr>
-                                                                <td colspan="5" align="center">
-                                                                    Tidak ada laporan harian
-                                                                </td>
-                                                            </tr>
-                                                        <?php
                                                     }
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="admin-laporan-harian.php">Lihat Laporan Harian &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>admin/harian">Lihat Laporan Harian &rarr;</a>
                                     </div>
                                 </div>
                             </div>
@@ -196,12 +148,8 @@
                     <div class="row">
                         <div class="col-lg-12 mb-2">
                             <div class="card shadow mb-4">
-                                <?php
-                                    $year = date('Y');
-                                    $month = date('m');
-                                ?>
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Laporan Bulanan <?php print $kegiatan->month($month)." ".$year;?></h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Laporan Bulanan <?php print $monthname." ".$year;?></h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
@@ -216,51 +164,19 @@
                                             </thead>
                                             <tbody>
                                                 <?php
-                                                    $range1 = $year."-".$month."-01";
-                                                    $range2 = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
-                                                    $whereclause = "WHERE keg_date BETWEEN '$range1' AND '$range2'";
-
-                                                    $sql = "SELECT  * FROM kegiatan $whereclause GROUP BY pekerjaan_id ORDER BY pekerjaan_id ASC";
-                                                    $query = $kegiatan->show_sql($sql);
-                                                    if(count($query) > 0){
+                                                    if(count($bulanan) > 0){
                                                         $no = 1;
-                                                        foreach($query as $data){
-                                                            ## hanya tampilkan 10 row data di dashboard
+                                                        foreach($bulanan as $data){
                                                             if($no < 11){
                                                                 ?>
-                                                                <?php
-                                                                    unset($satuan);
-                                                                    unset($tanggal);
-                                                                    $totalvolume = 0;
-                                                                    $querydate = $kegiatan->show_sql("SELECT * FROM kegiatan $whereclause AND pekerjaan_id = '{$data['pekerjaan_id']}' ");
-                                                                    foreach($querydate as $datadate){
-                                                                        ## all dates
-                                                                        $tanggal[] = date("d", $datadate['keg_timestamp']);
-
-                                                                        ## total volumes
-                                                                        $totalvolume += $datadate['keg_volume'];
-
-                                                                        ## all satuan
-                                                                        $satuan[] = $datadate['keg_satuan'];
-                                                                    }
-                                                                ?>
-                                                                    <tr>
-                                                                        <td>
-                                                                            <?php
-                                                                            $getpekerjaan = $pekerjaan->show_pekerjaan_detail($data['pekerjaan_id']);
-                                                                            print $getpekerjaan['pekerjaan_name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php
-                                                                                asort($tanggal);
-                                                                                print implode(", ", array_unique($tanggal));
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center"><?php print $totalvolume;?></td>
-                                                                        <td align="center"><?php print implode(", ", array_unique(array_map("strtoupper", $satuan))); ?>
-                                                                        </td>
-                                                                    </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <?php print $data['pekerjaan_name'];?>
+                                                                    </td>
+                                                                    <td align="center"><?php print $data['keg_date'];?></td>
+                                                                    <td align="center"><?php print $data['keg_volume'];?></td>
+                                                                    <td align="center"><?php print $data['keg_satuan'];?></td>
+                                                                </tr>
                                                                 <?php
                                                             }
                                                             $no++;
@@ -277,7 +193,7 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="admin-laporan-bulanan.php">Lihat Laporan Bulanan &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>admin/bulanan/">Lihat Laporan Bulanan &rarr;</a>
                                     </div>
                                 </div>
                             </div>
@@ -292,13 +208,13 @@
         <i class="fas fa-angle-up"></i>
     </a>
     <!-- Bootstrap core JavaScript-->
-    <script src="../../js/jquery.min.js"></script>
-    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="<?php print base_url();?>js/jquery.min.js"></script>
+    <script src="<?php print base_url();?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="../../js/jquery.easing.1.3.js"></script>
+    <script src="<?php print base_url();?>js/jquery.easing.1.3.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="../../js/sb-admin-2.min.js"></script>
+    <script src="<?php print base_url();?>js/sb-admin-2.min.js"></script>
 </body>
 </html>

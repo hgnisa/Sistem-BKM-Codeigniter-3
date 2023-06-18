@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Welcome extends MY_Controller {
+class Admin extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -18,8 +18,20 @@ class Welcome extends MY_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
+
+	function __construct(){
+        parent::__construct();
+		$this->load->model('userModel', 'users');
+		$this->load->model('kegiatanModel', 'reports');
+		$this->load->model('pekerjaanModel', 'jobs');
+		$this->load->model('kavlingModel', 'kavs');
+	}
+
 	public function index()
 	{
-		$this->load->view('login');
+		print "here"; exit;
 	}
+
 }
+
+	

@@ -39,4 +39,19 @@ class pekerjaanModel extends CI_Model
     {
         $this->db->delete($this->table, array($this->index => $id));
     }
+
+    public function validateEdit($id, $name){
+        $this->db->where('pekerjaan_name', $name);
+        $this->db->where('pekerjaan_id !=', $id);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
+
+    public function validate($name){
+        $this->db->where('pekerjaan_name', $name);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
 }

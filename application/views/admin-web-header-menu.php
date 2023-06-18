@@ -7,32 +7,23 @@
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     <?php
-                        $userdata = $user->show_user_detail($_COOKIE['cook_id']);
-                        print ucwords($userdata['user_name']);
+                        print $users->user_name;
                     ?>
                 </span>
                 <img class="img-profile rounded-circle"
-                    src="../../img/undraw_profile.svg">
+                    src="<?php print base_url();?>img/profile-empty.jpg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="admin-pengguna.php?action=edit&id=<?php print $_COOKIE['cook_id'];?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
+                    Profil
                 </a>
-                <!-- <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a> -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
+                    Keluar
                 </a>
             </div>
         </li>
@@ -50,7 +41,7 @@
             <div class="modal-body">Pilih tombol "Keluar" di bawah jika Anda siap untuk mengakhiri sesi Anda saat ini.</div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                <a class="btn btn-primary" href="../../logout.php">Logout</a>
+                <a class="btn btn-primary" href="../../logout.php">Keluar</a>
             </div>
         </div>
     </div>

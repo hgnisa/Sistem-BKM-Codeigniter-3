@@ -10,14 +10,14 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item <?php if($_SESSION['menu'] == 1){ print "active"; } ?>">
-        <a class="nav-link" href="admin-index.php">
+        <a class="nav-link" href="<?php print base_url();?>admin">
             <i class="fas fa-fw fa-home"></i>
             <span>Dashboard</span></a>
-    </li>
+    </li> 
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 2){ print "active"; } ?>">
-        <a class="nav-link" href="admin-pekerjaan.php">
+        <a class="nav-link" href="<?php print base_url();?>admin/pekerjaan">
             <i class="fas fa-fw fa-list-ul"></i>
             <span>Data Pekerjaan</span></a>
     </li>
@@ -25,27 +25,27 @@
     <!-- Nav Item - Kavling -->
     <li>
         <li class="nav-item <?php if($_SESSION['menu'] == 6){ print "active"; } ?>">
-        <a class="nav-link" href="admin-kavling.php">
+        <a class="nav-link" href="<?php print base_url();?>admin/kavling">
             <i class="fas fa-fw fa-list-ul"></i>
             <span>Data Kavling</span></a>
     </li>
 
     <!-- Nav Item - Laporan Harian -->
     <li class="nav-item <?php if($_SESSION['menu'] == 3){ print "active"; } ?>">
-        <a class="nav-link" href="admin-laporan-harian.php">
+        <a class="nav-link" href="<?php print base_url();?>admin/harian">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Laporan Harian</span></a>
     </li>
 
     <!-- Nav Item - Rekap Laporan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 4){ print "active"; } ?>">
-        <a class="nav-link" href="admin-laporan-bulanan.php">
+        <a class="nav-link" href="<?php print base_url();?>admin/bulanan">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Laporan Bulanan</span></a>
     </li>
 
      <li class="nav-item <?php if($_SESSION['menu'] == 5){ print "active"; } ?>">
-        <a class="nav-link" href="admin-pengguna.php">
+        <a class="nav-link" href="<?php print base_url();?>admin/pengguna">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Kelola Pengguna</span></a>
     </li>

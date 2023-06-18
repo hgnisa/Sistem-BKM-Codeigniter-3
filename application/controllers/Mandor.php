@@ -249,6 +249,8 @@ class Mandor extends MY_Controller {
 			$name = $this->jobs->find(array('pekerjaan_id' => $r->pekerjaan_id));
 			$name = $name->pekerjaan_name;
 
+			var_dump($name); print "<br><br>";
+
             ## get total volume
 			$volume = $this->reports->sum('keg_volume', array('keg_date' => $r->keg_date));
 			$volume = $volume[0]->keg_volume;

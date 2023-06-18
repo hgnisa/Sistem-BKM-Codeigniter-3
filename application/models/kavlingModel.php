@@ -39,4 +39,22 @@ class kavlingModel extends CI_Model
     {
         $this->db->delete($this->table, array($this->index => $id));
     }
+
+    public function validate($name, $shm){
+        $this->db->where('kav_name', $name);
+        $this->db->where('kav_shm', $shm);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
+
+    public function validateUpdate($id, $name, $shm)
+    {
+        $this->db->where('kav_name', $name);
+        $this->db->where('kav_shm', $shm);
+        $this->db->where('kav_id !=', $id);
+        
+        $result = $this->db->get($this->table)->row();
+        return $result;
+    }
 }
