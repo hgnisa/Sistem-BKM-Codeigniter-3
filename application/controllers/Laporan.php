@@ -145,6 +145,16 @@ class Laporan extends MY_Controller {
             $data['month'] = date('m');
             $data['year'] = date('Y');
         }
+
+        # get kegiatan each date
+		$data['kegiatan'] = $this->getKegiatanByRange($data['periode'], $data['month'], $data['year']);
+		$data['totalKegiatan'] = $this->getKegiatanByDate($data['periode'], $data['month'], $data['year']);
+
+		## get month name
+		$data['month_name'] = $this->monthName($data['month']);
+		$data['month_name_now'] = $this->monthName(date('m'));
+
+		$this->load->view('admin-export-bulanan', $data);
     }
 
 	
@@ -303,6 +313,48 @@ class Laporan extends MY_Controller {
 		return $return;
 	}
 
+    public function getKegiatanByDate($periode, $month, $year, $return = [])
+	{
+        $t = date("t", strtotime($year."-".$month."-01"));
+
+        $data = $this->getKegiatanByRange($periode, $month, $year);
+        foreach($data as $val){
+            ## get pekerjaan_id
+            $pekerjaan_id = $this->jobs->find(['pekerjaan_name' => $val['pekerjaan_name']])->pekerjaan_id;
+            if($periode == "awal"){
+                for($i=1;$i<=15;$i++) {
+                    if($i < 10){
+                        $date = $year."-".$month."-0".$i;
+                    }else{
+                        $date = $year."-".$month."-".$i;
+                    }
+    
+                    $sum = $this->reports->sum('keg_volume', ['pekerjaan_id' => $pekerjaan_id, 'keg_date' => $date])[0]->keg_volume;
+    
+                    if($sum > 0){
+                        $return[] = [
+                            'date' => $date,
+                            'amount' => $sum
+                        ];
+                    }
+                }
+            }else{
+                for($i=16;$i<=$t;$i++) {
+                    $date = $year."-".$month."-".$i;
+        
+                    $sum = $this->reports->sum('keg_volume', ['pekerjaan_id' => $pekerjaan_id, 'keg_date' => $date])[0]->keg_volume;
+
+                    if($sum > 0){
+                        $return[] = [
+                            'date' => $date,
+                            'amount' => $sum
+                        ];
+                    }
+                }
+            }
+        }        
+		return $return;
+	}
 
     #################################################
 
