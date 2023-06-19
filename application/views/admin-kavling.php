@@ -42,7 +42,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Data Kavling</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>admin/kavling/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>  Tambah Kavling </a>
+                                    <a href="<?php print base_url();?>admin/kav/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>  Tambah Kavling </a>
                                     <br/><br/>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -66,17 +66,17 @@
                                                         ?>
                                                             <tr>
                                                                 <td><?php print $no;?></td>
-                                                                <td><?php print $data['kav_name'];?></td>
-                                                                <td><?php print $data['kav_shm'];?></td>
-                                                                <td><?php print $data['kav_lokasi'];?></td>
-                                                                <td class="text-center"><?php print $data['kav_luas'];?></td>
+                                                                <td><?php print $data->kav_name;?></td>
+                                                                <td><?php print $data->kav_shm;?></td>
+                                                                <td><?php print $data->kav_lokasi;?></td>
+                                                                <td class="text-center"><?php print $data->kav_luas;?></td>
                                                                 <td align="center">
-                                                                    <a href="<?php print base_url();?>admin/kavling/edit/<?php print $data['kav_id'];?>">
+                                                                    <a href="<?php print base_url();?>admin/kav/edit/<?php print $data->kav_id;?>">
                                                                         <i class="fas fas-form fa-edit"></i>
                                                                     </a>
                                                                 </td>
                                                                 <td align="center"> 
-                                                                    <a href="<?php print base_url();?>admin/delKavling/<?php print $data['kav_id'];?>"  onclick="return confirm('Apakah Anda yakin ingin menghapus kavling <?php print $data['kav_name'];?>?');">
+                                                                    <a href="<?php print base_url();?>admin/kav/deleteKavling/<?php print $data->kav_id;?>"  onclick="return confirm('Apakah Anda yakin ingin menghapus kavling <?php print $data->kav_name;?>?');">
                                                                         <i class="fas fas-form fa-trash"></i>
                                                                     </a>
                                                                 </td>

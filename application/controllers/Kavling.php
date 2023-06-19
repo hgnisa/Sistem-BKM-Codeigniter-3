@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pekerjaan extends MY_Controller {
+class Kavling extends MY_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -34,10 +34,10 @@ class Pekerjaan extends MY_Controller {
 		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
 		## get data pekerjaan
-		$data['pekerjaan'] = $this->jobs->get();
+		$data['kavling'] = $this->kavs->get();
 
 		## load data to page
-		$this->load->view('admin-pekerjaan', $data);
+		$this->load->view('admin-kavling', $data);
 	}
 
 	public function add()
@@ -47,7 +47,7 @@ class Pekerjaan extends MY_Controller {
 		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
 		## load data to page
-		$this->load->view('admin-pekerjaan-add', $data);
+		$this->load->view('admin-kavling-add', $data);
 	}
 
 	public function edit($id)
@@ -57,30 +57,29 @@ class Pekerjaan extends MY_Controller {
 		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
 		## get detail kegiatan
-		$data['pekerjaan'] = $this->jobs->find(['pekerjaan_id' => $id]);
+		$data['kavling'] = $this->kavs->find(['kav_id' => $id]);
 
-		$this->load->view('admin-pekerjaan-edit', $data);
+		$this->load->view('admin-kavling-edit', $data);
 	}
 
 	###############################################
 
-	public function addPekerjaan()
+	public function addKavling()
 	{
 		$error = '';
 		$data = $this->input->post();
 
-		$validate = $this->jobs->validate($data['pekerjaan_name']);
+		$validate = $this->kavs->validate($data['kav_name'], $data['kav_shm']);
 		if($validate){
-			$error="Pekerjaan sudah ditambahkan";
+			$error="Kavling sudah ditambahkan";
         }
 
-
 		if(!$error){
-			$insert = $this->jobs->insert($data);
+			$insert = $this->kavs->insert($data);
 			?>
 			<script type="text/javascript">
 				localStorage.setItem('error', false);
-				location="<?php print base_url();?>admin/job"; 
+				location="<?php print base_url();?>admin/kav"; 
 			</script> 
 			<?php 
 		}else{
@@ -90,28 +89,29 @@ class Pekerjaan extends MY_Controller {
 					console.log(errormsg);
 					localStorage.setItem('error', true);
 					localStorage.setItem('errormsg', errormsg);					
-					location="<?php print base_url();?>admin/job/add"; 
+					location="<?php print base_url();?>admin/kav/add"; 
 				</script> 
 			<?php
 		}
 	}
 
-	public function updatePekerjaan($id)
+
+	public function updateKavling($id)
 	{
 		$error = '';
 		$data = $this->input->post();
 
-		$validate = $this->jobs->validateEdit($id, $data['pekerjaan_name']);
+		$validate = $this->kavs->validateUpdate($id, $data['kav_name'], $data['kav_shm']);
 		if($validate){
-			$error="Pekerjaan sudah ditambahkan";
+			$error="Kavling sudah ada";
         }
 
 		if(!$error){
-			$update = $this->jobs->update($data, $id);
+			$update = $this->kavs->update($data, $id);
 			?>
 			<script type="text/javascript">
 				localStorage.setItem('error', false);
-				location="<?php print base_url();?>admin/job"; 
+				location="<?php print base_url();?>admin/kav"; 
 			</script> 
 			<?php 
 		}else{
@@ -121,15 +121,15 @@ class Pekerjaan extends MY_Controller {
 					var errormsg = "<?php print $error?>";
 					localStorage.setItem('error', true);
 					localStorage.setItem('errormsg', errormsg);					
-					location="<?php print base_url();?>admin/job/edit/"+id; 
+					location="<?php print base_url();?>admin/kav/edit/"+id; 
 				</script> 
 			<?php
 		}
 	}
 
-	public function deletePekerjaan($id){
-		$delete = $this->jobs->delete($id);
-		redirect('admin/job');
+	public function deleteKavling($id){
+		$delete = $this->kavs->delete($id);
+		redirect('admin/kav');
 	}
 
 }

@@ -26,10 +26,164 @@ class User extends MY_Controller {
 
 	public function index()
 	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+		
+		## get monthly report
+		$data['pengguna'] = $this->users->get();
+
+
+		## data profile
 		$this->load->view('admin-pengguna', $data);
 	}
 
-	public function update($id)
+	public function add()
+	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+		## get action
+		$data['action'] = 'add';
+
+		## data profile
+		$this->load->view('admin-pengguna-add', $data);
+	}
+
+	public function profile($id)
+	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+		## get detail kegiatan
+		$data['user'] = $this->users->find(['user_id' => $id]);
+
+
+		$this->load->view('admin-modal-profile', $data);
+	}
+
+	public function edit($id)
+	{
+		## data user logged in
+		$userdata = $this->session->userdata();
+		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+		## get detail kegiatan
+		$data['user'] = $this->users->find(['user_id' => $id]);
+
+		$this->load->view('admin-pengguna-edit', $data);
+	}
+
+	####################################
+
+	public function addUser()
+	{
+		
+        $allowedType=array("image/gif","image/png","image/pjpeg","image/jpeg");
+		$error = '';
+		$data = $this->input->post();
+
+		$name = $_POST['name'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        $confirmpass = $_POST['confirmpass'];
+        $type = $_POST['type'];
+        $image=$_FILES["mandorimage"];
+
+		if($type == "mandor" or $type == "bhl"){
+            if($image['name']){
+                $fname=$image['name'];
+                $ftype=$image['type'];
+
+                if($fname){
+                    if (!in_array($ftype,$allowedType)){
+                        $error="Gambar yang dimasukkan tidak valid. Silakan coba upload file lain.";
+                    }else{
+                        $target_dir = base_url()."img/profile/";
+                        $target_file = $target_dir . basename($fname);
+
+                        $uploadOk = 1;
+                        $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+                        
+                        $check = getimagesize($image["tmp_name"]);
+
+                        if($check == false) {
+                            $error = "Gambar yang dimasukkan tidak valid. Silahkan coba upload file lain.";
+                        }else{
+                        }
+                    }
+                }
+            }
+        }
+
+		$validate = $this->users->validateAdd($username, $type);
+		if($validate){
+			$error="Username sudah digunakan. Silakan coba username lain.";
+        }
+
+		if($password != $confirmpass){
+            $error="Password tidak cocok. Silakan coba lagi.";
+        }
+
+		if(!$error){
+			$dataimg = '';
+			$imgfile = '';
+			if($image['name']){
+                $config['upload_path']= './img/profile';
+				$config['allowed_types'] = 'gif|jpg|png';
+				$config['max_size'] = 2048;
+				$config['max_width'] = 2048;
+				$config['max_height'] = 2048;
+				$config['encrypt_name'] = TRUE;
+
+				$this->load->library('upload', $config);
+
+				if (!$this->upload->do_upload('mandorimage')) {
+					$error="Update dan upload gambar profile gagal.";
+				} else {
+					$dataimg = $this->upload->data();
+				}
+				
+            }
+
+			if($dataimg){
+				$imgfile = $dataimg['file_name'];
+			}
+
+			$now = time();
+			
+			$data = [
+				'user_name' => $name,
+				'user_username' => $username,
+				'user_password' => md5($password),
+				'user_type' => $type,
+				'user_profile' => $imgfile,
+				'user_lastlogin' => $now
+			];
+
+			$insert = $this->users->insert($data);
+			?>
+			<script type="text/javascript">
+				localStorage.setItem('error', false);
+				location="<?php print base_url();?>admin/user"; 
+			</script> 
+			<?php 
+		}else{
+			?>
+				<script type="text/javascript">
+					var errormsg = "<?php print $error?>";
+					console.log(errormsg);
+					localStorage.setItem('error', true);
+					localStorage.setItem('errormsg', errormsg);					
+					location="<?php print base_url();?>admin/user/add"; 
+				</script> 
+			<?php
+		}
+	}
+
+	public function updateUser($id)
 	{
 		$data = $this->input->post();
 
@@ -99,6 +253,10 @@ class User extends MY_Controller {
 				$imgfile = $dataimg['file_name'];
 			}
 
+			if($type == "admin"){
+				$imgfile = '';
+			}
+
 			if(!$error){
 				$arr['user_name'] = $name;
 				$arr['user_username'] = $username;
@@ -106,16 +264,14 @@ class User extends MY_Controller {
 					$password = md5($password); 
 					$arr['user_password'] = $password;
 				}
-				$arr['user_type'] = $type;
-				if($dataimg){					
-					$arr['user_profile'] = $imgfile;
-				}
+				$arr['user_type'] = $type;					
+				$arr['user_profile'] = $imgfile;
 
 				$update = $this->users->update($arr, $id);
 				?>
 				<script type="text/javascript">
 					localStorage.setItem('error', false);
-					location="<?php print base_url();?>mandor"; 
+					location="<?php print base_url();?>admin/user"; 
 				</script> 
 				<?php 
 			}else{
@@ -125,7 +281,7 @@ class User extends MY_Controller {
 						var errormsg = "<?php print $error?>";
 						localStorage.setItem('error', true);
 						localStorage.setItem('errormsg', errormsg);					
-						location="<?php print base_url();?>mandor/profile/"+id; 
+						location="<?php print base_url();?>admin/user/"+id; 
 					</script> 
             	<?php
 			}
@@ -136,9 +292,14 @@ class User extends MY_Controller {
                     var errormsg = "<?php print $error?>";
                     localStorage.setItem('error', true);
                     localStorage.setItem('errormsg', errormsg);					
-                    location="<?php print base_url();?>mandor/profile/"+id; 
+                    location="<?php print base_url();?>admin/user/"+id; 
                 </script> 
             <?php
 		}
+	}
+
+	public function deleteUser($id){
+		$delete = $this->users->delete($id);
+		redirect('admin/user');
 	}
 }

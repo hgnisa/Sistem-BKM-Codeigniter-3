@@ -10,13 +10,12 @@
                         print $users->user_name;
                     ?>
                 </span>
-                <img class="img-profile rounded-circle"
-                    src="<?php print base_url();?>img/profile-empty.jpg">
+                <img class="img-profile rounded-circle" src="<?php print base_url();?>img/profile-empty.jpg">
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="admin-pengguna.php?action=edit&id=<?php print $_COOKIE['cook_id'];?>">
+                <a class="dropdown-item" href="<?php print base_url();?>/admin/pengguna/edit/<?php print $users->user_id;?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profil
                 </a>

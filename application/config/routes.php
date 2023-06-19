@@ -55,4 +55,21 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['/'] = 'welcome/index';
 
-$route['admin/pengguna/(:any)'] = 'pengguna/index/$1';
+$route['admin/user'] = 'user/index';
+$route['admin/user/(:any)'] = 'user/$1';
+$route['admin/user/(:any)/(:num)'] = 'user/$1/$2';
+
+$route['admin/job'] = 'pekerjaan/index';
+$route['admin/job/(:any)'] = 'pekerjaan/$1';
+$route['admin/job/(:any)/(:num)'] = 'pekerjaan/$1/$2';
+
+$route['admin/kav'] = 'kavling/index';
+$route['admin/kav/(:any)'] = 'kavling/$1';
+$route['admin/kav/(:any)/(:num)'] = 'kavling/$1/$2';
+
+$route['admin/report/(:any)'] = 'laporan/$1';
+$route['admin/report/(:any)/(:any)'] = 'laporan/$1/$2';
+$route['admin/report/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3';
+$route['admin/report/(:any)/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3/$4';
+
+

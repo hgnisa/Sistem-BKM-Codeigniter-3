@@ -44,7 +44,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Data Pekerjaan</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>admin/pekerjaan/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>  Tambah Pekerjaan </a>
+                                    <a href="<?php print base_url();?>admin/job/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i>  Tambah Pekerjaan </a>
                                     <br/><br/>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -65,14 +65,14 @@
                                                         ?>
                                                             <tr>
                                                                 <td><?php print $no;?></td>
-                                                                <td><?php print $data['pekerjaan_name'];?></td>
+                                                                <td><?php print $data->pekerjaan_name;?></td>
                                                                 <td align="center">
-                                                                    <a href="<?php print base_url();?>admin/pekerjaan/edit/<?php print $data['pekerjaan_id'];?>">
+                                                                    <a href="<?php print base_url();?>admin/job/edit/<?php print $data->pekerjaan_id;?>">
                                                                         <i class="fas fas-form fa-edit"></i>
                                                                     </a>
                                                                 </td>
                                                                 <td align="center"> 
-                                                                    <a href="<?php print base_url();?>admin/delPekerjaan/<?php print $data['pekerjaan_id'];?>"  onclick="return confirm('Apakah Anda yakin ingin menghapus pekerjaan <?php print $data['pekerjaan_name'];?>?');">
+                                                                    <a href="<?php print base_url();?>admin/job/deletePekerjaan/<?php print $data->pekerjaan_id;?>" onclick="return confirm('Apakah Anda yakin ingin menghapus pekerjaan <?php print $data->pekerjaan_name;?>?');">
                                                                         <i class="fas fas-form fa-trash"></i>
                                                                     </a>
                                                                 </td>

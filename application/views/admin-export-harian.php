@@ -1,11 +1,9 @@
 <?php
-// require(base_url().'vendor/fpdf/fpdf.php');
 require_once(APPPATH.'libraries/fpdf/fpdf.php');
 
 $pdf=new FPDF('L','mm','A4');
 $pdf->AddPage();
  
-
 ## DOCUMENT HEADER
 $pdf->Cell(0,5,'',0,1);
 $pdf->SetFont('Arial','B',9);
@@ -23,14 +21,12 @@ $pdf->Cell(0,0,'Tanggal: '.$day." ".$month_name." ".$year,0,0);
 
 ## DOCUMENT HEADER TABLE
 $pdf->setFillColor(200,200,200);
-// $pdf->Rect(0, 0, 210, 297, 'F');
 $pdf->Cell(0,5,'',0,1);
 $pdf->SetFont('Arial','B',8);
 $pdf->Cell(80,5,'JENIS PEKERJAAN',1,0,'C',1);
 $pdf->Cell(35,5,'HASIL KERJA' ,1,0,'C',1);
 $pdf->Cell(35,5,'SATUAN',1,0,'C',1);
 $pdf->Cell(120,5,'KAVLING',1,0,'C',1);
-
 
 ## DOCUMENT TABLE
 $pdf->Cell(80,5,'',0,1);
@@ -49,13 +45,11 @@ if(count($kegiatan) > 0){
     $pdf->Cell(270,10, "Tidak ada data laporan",1,0,'C');
 }
 
-
 ## DOCUMENT NOTE
 $pdf->SetFont('Arial','',8);
 $pdf->Cell(0,$note,'',0,1);
 $pdf->Cell(0,5,"Note: ",0,0);
 $pdf->Cell(0,30,'',0,1);
-
 
 ## DOCUMENT TTD
 $pdf->SetLeftMargin(240);

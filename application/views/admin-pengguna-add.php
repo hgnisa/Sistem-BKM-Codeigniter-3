@@ -54,7 +54,7 @@
                                     <div id="closebtn" style="font-size: 13px"> This is an alert box. </div>
                                 </div>
                                 <div class="card-body">
-                                    <form class="user" action="<?php print base_url();?>pengguna/addPengguna" method="post" enctype="multipart/form-data" name="adduser" id="adduser">
+                                    <form class="user" action="<?php print base_url();?>user/addUser" method="post" enctype="multipart/form-data" name="adduser" id="adduser">
                                         <div class="form-group row">
                                             <div class="col-sm-3 mt-2 form-input-sm">
                                                 <label for="name">Nama</label>
@@ -121,7 +121,7 @@
                                             <div class="col-sm-3 mt-2"></div>
                                             <div class="col-sm-9 form-inline mt-4">
                                                 <button type="submit" class="btn btn-primary btn-sm form-input-sm mt-0" style="margin-right: 8px"><i class="fa fa-plus fa-fw"></i> Tambah
-                                                <button onclick="window.location='admin-pengguna.php'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
+                                                <button onclick="window.location='<?php print base_url();?>admin/user'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
                                             </div>
                                         </div>
                                     </form>

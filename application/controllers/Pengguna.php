@@ -26,6 +26,7 @@ class Pengguna extends MY_Controller {
 
 	public function index($action = NULL)
 	{
+		var_dump("sasasas"); exit;
 		if(!$action){
 			## data user logged in
 			$userdata = $this->session->userdata();
@@ -39,7 +40,7 @@ class Pengguna extends MY_Controller {
 		}elseif($action == "add"){
 			## data user logged in
 			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+			$data['users'] = $this->users->findUser(array('user_id' => $userdata["id"]));
 
 			## get action
 			$data['action'] = 'add';

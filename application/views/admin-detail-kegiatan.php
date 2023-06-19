@@ -63,7 +63,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <button onclick="window.location='<?php print base_url();?>admin/harian?date=<?php print $date;?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
+                            <button onclick="window.location='<?php print base_url();?>admin/report/daily?date=<?php print $date;?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
                         </div>
                     </div>
                     <div class="row">

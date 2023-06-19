@@ -59,33 +59,8 @@
                             <div class="card shadow mb-4">
                                 <div class="card-body">
                                     <div class="row">
-                                        <?php
-                                        /*
-                                            ## if awal or akhir bulan
-                                            $periode = $_GET['periode'];
-                                            if($periode){
-                                                $periode = $periode;
-                                            }else{
-                                                $periode = "awal";
-                                            }
-
-                                            ## if there is date filter or not
-                                            $month = $_GET['month'];
-                                            $year = $_GET['year'];
-                                                    
-                                            ## always show by today or filtered kegiatan
-                                            if(!empty($month) and !empty($year)){
-                                                $month = $month;
-                                                $year = $year;
-                                            }else{
-                                                $month = date("m");
-                                                $year = date("Y");
-                                            }
-
-                                            $url = "?month=$month&year=$year&";
-                                        */ ?>
                                         <div class="col-lg-12">
-                                            <form action="<?php print base_url();?>admin/bulanan" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                            <form action="<?php print base_url();?>admin/report/monthly/<?php print $periode;?>" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                                 <div class="input-group">
                                                     <label>Filter berdasarkan bulan: &nbsp;</label>
                                                     <select name="m" size='1' class="form-control bg-light border-1 small" placeholder="Cari"
@@ -122,13 +97,14 @@
                                             </form>
                                             <div style="float: right">
                                                 <label>Pilih Periode:&nbsp;</label>
-                                                <a href="<?php print base_url();?>admin/bulanan/awal" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm monthly<?php print $periode == 'awal' ? '-active' : '';?>"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Awal Bulan </a>       
-                                                <a href="<?php print base_url();?>/akhir" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm monthly<?php print $periode == 'akhir' ? '-active' : '';?>"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Akhir Bulan </a> 
+                                                <a href="<?php print base_url();?>admin/report/monthly/start<?php print $param ? "?".$param : "";?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm monthly<?php print $periode == 'start' ? '-active' : '';?>"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Awal Bulan </a> 
+
+                                                <a href="<?php print base_url();?>admin/report/monthly/end<?php print $param ? "?".$param : "";?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm monthly<?php print $periode == 'end' ? '-active' : '';?>"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Akhir Bulan </a> 
                                             </div>
                                         </div>
                                     </div>
 
-                                    <a href="<?php print base_url();?>admin/bulanan/export/akhir" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mt-3"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a><br><br>
+                                    <a href="<?php print base_url();?>admin/report/exportMonthly?periode=<?php print $periode;?>&month=<?php print $month;?>&year=<?php print $year;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm mt-3"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a><br><br>
 
                                     <div class="table-responsive">
                                         <table class="table tables-bordered" id="dataTable" width="100%" cellspacing="0">

@@ -17,7 +17,7 @@
 
     <!-- Nav Item - Kegiatan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 2){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>admin/pekerjaan">
+        <a class="nav-link" href="<?php print base_url();?>admin/job">
             <i class="fas fa-fw fa-list-ul"></i>
             <span>Data Pekerjaan</span></a>
     </li>
@@ -25,27 +25,27 @@
     <!-- Nav Item - Kavling -->
     <li>
         <li class="nav-item <?php if($_SESSION['menu'] == 6){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>admin/kavling">
+        <a class="nav-link" href="<?php print base_url();?>admin/kav">
             <i class="fas fa-fw fa-list-ul"></i>
             <span>Data Kavling</span></a>
     </li>
 
     <!-- Nav Item - Laporan Harian -->
     <li class="nav-item <?php if($_SESSION['menu'] == 3){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>admin/harian">
+        <a class="nav-link" href="<?php print base_url();?>admin/report/daily">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Laporan Harian</span></a>
     </li>
 
     <!-- Nav Item - Rekap Laporan -->
     <li class="nav-item <?php if($_SESSION['menu'] == 4){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>admin/bulanan">
+        <a class="nav-link" href="<?php print base_url();?>admin/report/monthly">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Laporan Bulanan</span></a>
     </li>
 
      <li class="nav-item <?php if($_SESSION['menu'] == 5){ print "active"; } ?>">
-        <a class="nav-link" href="<?php print base_url();?>admin/pengguna">
+        <a class="nav-link" href="<?php print base_url();?>admin/user">
             <i class="far fa-fw fa-folder-open"></i>
             <span>Kelola Pengguna</span></a>
     </li>

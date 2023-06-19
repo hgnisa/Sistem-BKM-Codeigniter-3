@@ -48,69 +48,8 @@ class Admin extends MY_Controller {
 		$this->load->view('admin-index', $data);
 	}
 
-	public function pekerjaan($action = NULL, $id = NULL)
-	{ 
-		if(!$action){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
-			## get data pekerjaan
-			$data['pekerjaan'] = $this->getPekerjaan();
-
-			## load data to page
-			$this->load->view('admin-pekerjaan', $data);
-		}elseif($action == "edit" and $id){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-			## id pekerjaan
-			$data['id'] = $id;
-			$data['pekerjaan'] = $this->jobs->find(array('pekerjaan_id' => $id));
-
-			$this->load->view('admin-pekerjaan-edit', $data);
-		}elseif($action == "add"){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-			$this->load->view('admin-pekerjaan-add', $data);
-		}
-		
-	}
-
-	public function kavling($action = NULL, $id = NULL)
-	{ 
-		if(!$action){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-			## get data pekerjaan
-			$data['kavling'] = $this->getKavling();
-
-			## load data to page
-			$this->load->view('admin-kavling', $data);
-		}elseif($action == "edit" and $id){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-			## id pekerjaan
-			$data['id'] = $id;
-			$data['kavling'] = $this->kavs->find(array('kav_id' => $id));
-
-			$this->load->view('admin-kavling-edit', $data);
-		}elseif($action == "add"){
-			## get user logged in
-			$userdata = $this->session->userdata();
-			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-			$this->load->view('admin-kavling-add', $data);
-		}
-		
-	}
+	
 
 	public function harian()
 	{

@@ -46,7 +46,7 @@
                                     <div id="closebtn" style="font-size: 13px"> This is an alert box. </div>
                                 </div>
                                 <div class="card-body">
-                                    <form class="user" action="<?php print base_url();?>admin/addPekerjaan" method="post" enctype="multipart/form-data" name="addpekerjaan" id="addpekerjaan">
+                                    <form class="user" action="<?php print base_url();?>admin/job/addPekerjaan" method="post" enctype="multipart/form-data" name="addpekerjaan" id="addpekerjaan">
                                         <div class="form-group row">
                                             <div class="col-sm-3 mt-2 form-input-sm">
                                                 <label for="pekerjaan">Pekerjaan</label>

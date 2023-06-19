@@ -42,7 +42,7 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Data Pengguna</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>admin/pengguna/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Pengguna </a>
+                                    <a href="<?php print base_url();?>admin/user/add" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus fa-sm text-white-50"></i> Tambah Pengguna </a>
                                     <br/><br/>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -65,26 +65,25 @@
                                                         ?>
                                                             <tr>
                                                                 <td class="text-center"><?php print $no;?></td>
-                                                                <td><?php print ucwords($data['user_name']);?></td>
-                                                                <td><?php print $data['user_username'];?></td>
-                                                                <td align="center"><?php print ucwords($data['user_type']);?></td> 
+                                                                <td><?php print ucwords($data->user_name);?></td>
+                                                                <td><?php print $data->user_username;?></td>
+                                                                <td align="center"><?php print ucwords($data->user_type);?></td> 
                                                                 <td align="center"> 
                                                                     <?php
-                                                                        if($data['user_profile']){
+                                                                        if($data->user_profile){
                                                                             ?>
-                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailprofile" data-backdrop="static" data-href="<?php print base_url();?>admin/pengguna/<?php print $data['user_id']; ?>" class="detailprofile" title="Gambar: <?php print $data['user_name'];?>"><i class="fa fas-form fa-image"></i></a>
+                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailprofile" data-backdrop="static" data-href="<?php print base_url();?>admin/user/profile/<?php print $data->user_id; ?>" class="detailprofile" title="Gambar: <?php print $data->user_name;?>"><i class="fa fas-form fa-image"></i></a>
                                                                             <?php
                                                                         }
                                                                     ?>
                                                                 </td>
-                                                                <td align="center"> 
-                                                                    <a href="<?php print base_url();?>admin/pengguna/edit/<?php print $data['user_id'];?>" title="Edit: <?php print $data['user_name'];?>">
+                                                                <td align="center">
+                                                                    <a href="<?php print base_url();?>admin/user/edit/<?php print $data->user_id; ?>" title="Edit Pengguna:">
                                                                         <i class="fa fas-form fa-edit"></i>
                                                                     </a>&nbsp;&nbsp;
-                                                                    
                                                                 </td>
                                                                 <td align="center"> 
-                                                                    <a href="<?php print base_url();?>admin/pengguna/del/<?php print $data['user_id'];?>" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna <?php print ucwords($data['user_name']);?>?');">
+                                                                    <a href="<?php print base_url();?>admin/user/deleteUser/<?php print $data->user_id;?>" onclick="return confirm('Apakah Anda yakin ingin menghapus pengguna <?php print ucwords($data->user_name);?>?');">
                                                                         <i class="fas fas-form fa-trash"></i>
                                                                     </a> 
                                                                 </td>
@@ -145,57 +144,6 @@
     <script src="<?php print base_url();?>js/demo/datatables-demo.js"></script>
 
     <script>
-        window.addEventListener('DOMContentLoaded',function(){
-            if(window.localStorage.getItem('error') == 'true') {
-                alerterror(window.localStorage.getItem('errormsg'));
-            }
-        })
-
-        function alerterror(data) { 
-            var x = document.getElementById("alert");
-            x.style.display = "block";
-
-            document.getElementById('closebtn').innerHTML = data;
-        }         
-
-        var close = document.getElementsByClassName("closebtn");
-        var i;
-        for (i = 0; i < close.length; i++) {
-            close[i].onclick = function(){
-                window.localStorage.setItem('error', false);
-                var div = this.parentElement;
-                div.style.opacity = "0";
-                setTimeout(function(){ div.style.display = "none"; }, 600);
-            }
-        }
-
-        jQuery(document).ready(function($){
-            var action = '<?php print $_GET['action']?>';
-            if(action == 'add' || action == 'edit'){
-                if($('#typebhl').is(':checked') || $('#typemandor').is(':checked')) {  
-                    $('#mandorimage').show();
-                }else{
-                    $('#mandorimage').hide();
-                }
-
-                $("#typeadmin").change(function() {
-                    if(this.checked) {
-                        $("#mandorimage").hide();
-                    }
-                });
-                $("#typebhl").change(function() {
-                    if(this.checked) {
-                        $("#mandorimage").show();
-                    }
-                });
-                $("#typemandor").change(function() {
-                    if(this.checked) {
-                        $("#mandorimage").show();
-                    }
-                });
-            }
-        });
-
         $(document).ready(function(){
             $('.detailprofile').on('click',function(){
                 var dataURL = $(this).attr('data-href');

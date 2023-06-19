@@ -47,9 +47,9 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Laporan Harian</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>admin/export?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>       
+                                    <a href="<?php print base_url();?>admin/report/exportDaily?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>       
 
-                                    <form action="<?php print base_url();?>admin/harian" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                    <form action="<?php print base_url();?>admin/report/daily" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                         <div class="input-group">
                                             <label>Filter berdasarkan tanggal: &nbsp;</label>
                                             <input type="date" name="date" class="form-control bg-light border-1 small" placeholder="Cari"
@@ -82,25 +82,13 @@
                                                             ?>
                                                                 <tr>
                                                                     <td align="center"><?php print $no; ?></td>
-                                                                    <td>
-                                                                        <?php 
-                                                                            print $data['pekerjaan_name'];
-                                                                        ?>
-                                                                    </td>
-                                                                    <td>
-                                                                        <?php 
-                                                                            print $data['user_name'];
-                                                                        ?>
-                                                                    </td>
+                                                                    <td><?php print $data['pekerjaan_name'];?> </td>
+                                                                    <td><?php print $data['user_name']; ?>  </td>
                                                                     <td align="center"><?php print $data['keg_volume'];?></td>
                                                                     <td align="center"><?php print $data['keg_satuan'];?></td>
-                                                                    <td>
-                                                                        <?php 
-                                                                            print $data['kav_name'];
-                                                                        ?>
-                                                                    </td>
+                                                                    <td><?php print $data['kav_name'];?></td>
                                                                     <td align="center">
-                                                                        <a href="<?php print base_url();?>admin/detail/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
+                                                                        <a href="<?php print base_url();?>admin/report/detail/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
                                                                             <i class="fa fas-form fa-list"></i>
                                                                         </a>&nbsp;&nbsp;
                                                                     </td>
@@ -125,7 +113,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
     <script src="<?php print base_url();?>js/jquery.min.js"></script>
     <script src="<?php print base_url();?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="<?php print base_url();?>js/jquery.easing.1.3.js"></script>
