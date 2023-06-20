@@ -26,7 +26,6 @@ class Pengguna extends MY_Controller {
 
 	public function index($action = NULL)
 	{
-		var_dump("sasasas"); exit;
 		if(!$action){
 			## data user logged in
 			$userdata = $this->session->userdata();

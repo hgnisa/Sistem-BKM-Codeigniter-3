@@ -59,7 +59,7 @@
                                             <div class="col-sm-3"></div>
                                             <div class="col-sm-9 form-inline">
                                                 <button type="submit" class="btn btn-primary btn-sm form-input-sm mt-0" style="margin-right: 8px"><i class="fa fa-edit fa-fw"></i> Edit
-                                                <button onclick="window.location='admin-pekerjaan.php'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
+                                                <button onclick="window.location='<?php print base_url();?>admin/job'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
                                             </div>
                                         </div>
                                     </form>

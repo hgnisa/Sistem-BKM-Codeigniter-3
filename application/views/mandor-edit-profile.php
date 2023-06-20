@@ -102,7 +102,7 @@
                                             <div class="col-sm-3 mt-2"></div>
                                             <div class="col-sm-9 form-inline mt-4">
                                                 <button type="submit" class="btn btn-primary btn-sm form-input-sm mt-0" style="margin-right: 8px"><i class="fa fa-edit fa-fw"></i> Ubah 
-                                                <button onclick="window.location='mandor-index.php'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
+                                                <button onclick="window.location='<?php print base_url();?>mandor'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Batal
                                             </div>
                                         </div>
                                     </form>

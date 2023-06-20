@@ -47,8 +47,8 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Kegiatan</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>mandor/export?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>    
-                                    <form action="<?php print base_url();?>mandor/kegiatan" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                    <a href="<?php print base_url();?>mandor/exportReport?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>    
+                                    <form action="<?php print base_url();?>mandor/report" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                         <div class="input-group">
                                             <label>Filter berdasarkan tanggal: &nbsp;</label>
                                             <input type="date" name="date" class="form-control bg-light border-1 small" placeholder="Cari" aria-label="Search" aria-describedby="basic-addon2" value="<?php print empty($date) ? date("Y-m-d") : date_format(date_create($date),"Y-m-d");?>">
@@ -92,7 +92,7 @@
                                                                     <?php print $data['kav_name']; ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <a href="<?php print base_url();?>mandor/detail/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
+                                                                    <a href="<?php print base_url();?>mandor/detailReport/<?php print $data['keg_id']; ?>/<?php print $date;?>" title="Detail Kegiatan">
                                                                         <i class="fa fas-form fa-list"></i>
                                                                     </a>&nbsp;&nbsp;
                                                                 </td>

@@ -19,6 +19,7 @@ class Laporan extends MY_Controller {
 	 * @see https://codeigniter.com/userguide3/general/urls.html
 	 */
 
+
 	function __construct(){
         parent::__construct();
 		$this->load->model('userModel', 'users');
@@ -27,136 +28,304 @@ class Laporan extends MY_Controller {
 		$this->load->model('kavlingModel', 'kavs');
 	}
 
-	public function daily()
-	{
-		$this->load->helper('url');
-		$currentURL = current_url();
-		$params = $_SERVER['QUERY_STRING'];
-		
-		if($params){
-			$date = str_replace("date=", "", $params);
-		}else{
-			$date = NULL;
+	/**
+	 * ADMIN CONTROLLER
+	*/
+
+		public function daily()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
+			
+			if($params){
+				$date = str_replace("date=", "", $params);
+			}else{
+				$date = NULL;
+			}
+
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+			## get kegiatan each date
+			$data['date'] = $date ? $date : date("Y-m-d"); 
+			$data['kegiatan'] = $this->getKegiatan($data['date']);
+
+			## data profile
+			$this->load->view('admin-laporan-harian', $data);
 		}
 
-		## data user logged in
-		$userdata = $this->session->userdata();
-		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+		public function exportDaily()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
+			
+			if($params){
+				$date = str_replace("date=", "", $params);
+			}else{
+				$date = NULL;
+			}
 
-		## get kegiatan each date
-		$data['date'] = $date ? $date : date("Y-m-d"); 
-		$data['kegiatan'] = $this->getKegiatan($data['date']);
+			## get kegiatan each date
+			$data['date'] = $date ? $date : date("Y-m-d"); 
+			$data['kegiatan'] = $this->getKegiatanByPekerjaan($data['date']);
 
-		## data profile
-		$this->load->view('admin-laporan-harian', $data);
-	}
+			## get month name
+			$getdate = explode("-", $data['date']);
+			$data['month_name'] = $this->monthName($getdate[1]);
+			$data['month_name_now'] = $this->monthName(date('m'));
 
-    public function exportDaily()
-    {
-        $this->load->helper('url');
-		$currentURL = current_url();
-		$params = $_SERVER['QUERY_STRING'];
-		
-		if($params){
-			$date = str_replace("date=", "", $params);
-		}else{
-			$date = NULL;
+			$this->load->view('admin-export-harian', $data);
 		}
 
-		## get kegiatan each date
-		$data['date'] = $date ? $date : date("Y-m-d"); 
-		$data['kegiatan'] = $this->getKegiatanByPekerjaan($data['date']);
+		public function detail($id, $date)
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
 
-		## get month name
-		$getdate = explode("-", $data['date']);
-		$data['month_name'] = $this->monthName($getdate[1]);
-		$data['month_name_now'] = $this->monthName(date('m'));
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
-		$this->load->view('admin-export-harian', $data);
-    }
+			## get full date
+			$data['fulldate'] = $this->showDate($date);
 
-    public function detail($id, $date)
-    {
-        $this->load->helper('url');
-		$currentURL = current_url();
-		$params = $_SERVER['QUERY_STRING'];
+			## get detail kegiatan
+			$data['kegiatan'] = $this->findKegiatan($id);
 
-        ## data user logged in
-		$userdata = $this->session->userdata();
-		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+			$data['from'] = $params ? $params : '';
+			$data['date'] = $date;
 
-		## get full date
-		$data['fulldate'] = $this->showDate($date);
-
-		## get detail kegiatan
-		$data['kegiatan'] = $this->findKegiatan($id);
-
-		$data['from'] = $params ? $params : '';
-		$data['date'] = $date;
-
-		$this->load->view('admin-detail-kegiatan', $data);
-    }
-
-    public function monthly($periode = NULL)
-    {
-        ## data user logged in
-		$userdata = $this->session->userdata();
-		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
-
-        ## get all parameter
-        $this->load->helper('url');
-		$currentURL = current_url();
-		$params = $_SERVER['QUERY_STRING'] ? $_SERVER['QUERY_STRING'] : "";
-		$data['periode'] = $periode ? $periode : 'start';
-		$data['param'] = $params;
-
-        if($params){
-            $getparam = explode("&", $params);
-			$month = str_replace("m=", "", $getparam[0]);
-			$year = str_replace("y=", "", $getparam[1]);
-		}else{
-			$month = NULL;
-			$year = NULL;
+			$this->load->view('admin-detail-kegiatan', $data);
 		}
 
-		$data['month'] = $month ? $month : date('m');
-		$data['year'] = $year ? $year : date('Y');
+		public function monthly($periode = NULL)
+		{
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
-		## get monthly report
-		$data['bulanan'] = $this->getKegiatanByRange($data['periode'], $data['month'], $data['year']);
+			## get all parameter
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'] ? $_SERVER['QUERY_STRING'] : "";
+			$data['periode'] = $periode ? $periode : 'start';
+			$data['param'] = $params;
 
-		## data profile
-		$this->load->view('admin-laporan-bulanan', $data);
-    }
+			if($params){
+				$getparam = explode("&", $params);
+				$month = str_replace("m=", "", $getparam[0]);
+				$year = str_replace("y=", "", $getparam[1]);
+			}else{
+				$month = NULL;
+				$year = NULL;
+			}
 
-    public function exportMonthly()
-    {
-        $this->load->helper('url');
-		$currentURL = current_url();
-		$params = $_SERVER['QUERY_STRING'] ? $_SERVER['QUERY_STRING'] : "";
+			$data['month'] = $month ? $month : date('m');
+			$data['year'] = $year ? $year : date('Y');
 
-        if($params){
-            $getparam = explode("&", $params);
-			$data['periode'] = str_replace("periode=", "", $getparam[0]);
-			$data['month'] = str_replace("month=", "", $getparam[1]);
-			$data['year'] = str_replace("year=", "", $getparam[2]);
-        }else{
-            $data['periode'] = 'awal';
-            $data['month'] = date('m');
-            $data['year'] = date('Y');
-        }
+			## get monthly report
+			$data['bulanan'] = $this->getKegiatanByRange($data['periode'], $data['month'], $data['year']);
 
-        # get kegiatan each date
-		$data['kegiatan'] = $this->getKegiatanByRange($data['periode'], $data['month'], $data['year']);
-		$data['totalKegiatan'] = $this->getKegiatanByDate($data['periode'], $data['month'], $data['year']);
+			## data profile
+			$this->load->view('admin-laporan-bulanan', $data);
+		}
 
-		## get month name
-		$data['month_name'] = $this->monthName($data['month']);
-		$data['month_name_now'] = $this->monthName(date('m'));
+		public function exportMonthly()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'] ? $_SERVER['QUERY_STRING'] : "";
 
-		$this->load->view('admin-export-bulanan', $data);
-    }
+			if($params){
+				$getparam = explode("&", $params);
+				$data['periode'] = str_replace("periode=", "", $getparam[0]);
+				$data['month'] = str_replace("month=", "", $getparam[1]);
+				$data['year'] = str_replace("year=", "", $getparam[2]);
+			}else{
+				$data['periode'] = 'awal';
+				$data['month'] = date('m');
+				$data['year'] = date('Y');
+			}
 
+			# get kegiatan each date
+			$data['kegiatan'] = $this->getKegiatanByRange($data['periode'], $data['month'], $data['year']);
+			$data['totalKegiatan'] = $this->getKegiatanByDate($data['periode'], $data['month'], $data['year']);
+
+			## get month name
+			$data['month_name'] = $this->monthName($data['month']);
+			$data['month_name_now'] = $this->monthName(date('m'));
+
+			$this->load->view('admin-export-bulanan', $data);
+		}
+
+	/**
+	 * MANDOR CONTROLLER
+	*/
+
+		public function recap()
+		{
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+
+			## get all parameter
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'] ? $_SERVER['QUERY_STRING'] : "";
+			$data['param'] = $params;
+
+			if($params){
+				$getparam = explode("&", $params);
+				$month = str_replace("m=", "", $getparam[0]);
+				$year = str_replace("y=", "", $getparam[1]);
+			}else{
+				$month = NULL;
+				$year = NULL;
+			}
+
+			$data['month'] = $month ? $month : date('m');
+			$data['year'] = $year ? $year : date('Y');
+
+			## get monthly report
+			$data['rekap'] = $this->getKegiatanRecap($data['month'], $data['year']);
+
+			## data profile
+			$this->load->view('mandor-rekap-laporan', $data);
+		}
+
+		public function report()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
+			
+			if($params){
+				$date = str_replace("date=", "", $params);
+			}else{
+				$date = NULL;
+			}
+
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+
+			## get kegiatan each date
+			$data['date'] = $date ? $date : date("Y-m-d"); 
+			$data['kegiatan'] = $this->getKegiatan($data['date']);
+
+			## data profile
+			$this->load->view('mandor-kegiatan', $data);
+		}
+
+		public function verify($date)
+		{
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+
+			## get month
+			$data['fulldate'] = $this->showDate($date);
+
+			$data['rekap'] = $this->getKegiatan($date);
+			$data['date'] = $date;
+
+			$this->load->view('mandor-verifikasi', $data);
+		}
+
+		public function detailReport($id, $date = NULL, $page = NULL)
+		{
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+	
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+	
+			## get full date
+			$data['fulldate'] = $this->showDate($date);
+	
+			## get detail kegiatan
+			$data['kegiatan'] = $this->findKegiatan($id);
+			$data['from'] = $page;
+			$data['date'] = $date;
+	
+			$this->load->view('mandor-detail-kegiatan', $data);
+		}
+
+		public function exportReport()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
+			
+			if($params){
+				$date = str_replace("date=", "", $params);
+			}else{
+				$date = NULL;
+			}
+
+			## get kegiatan each date
+			$data['date'] = $date ? $date : date("Y-m-d"); 
+			$data['kegiatan'] = $this->getKegiatanByPekerjaan($data['date']);
+
+
+			## get month name
+			$getdate = explode("-", $data['date']);
+			$data['month_name'] = $this->monthName($getdate[1]);
+			$data['month_name_now'] = $this->monthName(date('m'));
+
+			$this->load->view('mandor-export-harian', $data);
+		}
+
+		public function attendance()
+		{
+			$this->load->helper('url');
+			$currentURL = current_url();
+			$params = $_SERVER['QUERY_STRING'];
+
+			if($params){
+				$getparams = explode("&", $params);
+				$month = str_replace("m=", "", $getparams[0]);
+				$year = str_replace("y=", "", $getparams[1]);
+			}else{
+				$month = NULL;
+				$year = NULL;
+			}
+				
+			## data user logged in
+			$userdata = $this->session->userdata();
+			$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
+
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+
+			## get absensi
+			$data['month'] = $month ? $month : date('m'); 
+			$data['year'] = $year ? $year : date('Y');
+			$data['absensi'] = $this->getAbsensi($data['month'], $data['year']);
+
+			## data profile
+			$this->load->view('mandor-absensi', $data);
+		}
+
+		public function detailAttendance($id)
+		{
+			$data['profile'] = $this->reports->find(array('keg_id' => $id));
+			$this->load->view('mandor-modal-kegiatan', $data);
+		}
 	
 	###############################################
 
@@ -297,7 +466,7 @@ class Laporan extends MY_Controller {
 			$job = $this->jobs->find(array('pekerjaan_id' => $r->pekerjaan_id))->pekerjaan_name;
 
 			## show date
-			$date = implode(", ", array_unique($dates));
+			$date = array_unique($dates);
 
 			## show satuan
 			$satuan = implode(", ", array_unique(array_map("strtoupper", $satuan)));
@@ -319,9 +488,11 @@ class Laporan extends MY_Controller {
 
         $data = $this->getKegiatanByRange($periode, $month, $year);
         foreach($data as $val){
+			
             ## get pekerjaan_id
             $pekerjaan_id = $this->jobs->find(['pekerjaan_name' => $val['pekerjaan_name']])->pekerjaan_id;
-            if($periode == "awal"){
+            if($periode == "start"){
+				
                 for($i=1;$i<=15;$i++) {
                     if($i < 10){
                         $date = $year."-".$month."-0".$i;
@@ -333,8 +504,9 @@ class Laporan extends MY_Controller {
     
                     if($sum > 0){
                         $return[] = [
-                            'date' => $date,
-                            'amount' => $sum
+                            'date' => $i,
+                            'amount' => $sum,
+							'pekerjaan' => $val['pekerjaan_name']
                         ];
                     }
                 }
@@ -346,14 +518,113 @@ class Laporan extends MY_Controller {
 
                     if($sum > 0){
                         $return[] = [
-                            'date' => $date,
-                            'amount' => $sum
+                            'date' => $i,
+                            'amount' => $sum,
+							'pekerjaan' => $val['pekerjaan_name']
                         ];
                     }
                 }
             }
-        }        
+        }      
 		return $return;
+	}
+
+	public function getKegiatanRecap($month, $year, $return = [])
+	{
+        $start = $year."-".$month."-01";
+        $end = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
+		
+		$data = $this->reports->groupBy(array('keg_date >=' => $start, 'keg_date <=' => $end), 'keg_date', 'keg_date', 'DESC');
+
+        foreach($data as $r){
+			## get all data by each keg_date
+			unset($datas);
+			$datas = $this->reports->findResult('*', array('keg_date' => $r->keg_date));
+
+				unset($job);
+				unset($kavling);
+				$volume = 0;
+				foreach($datas as $val){
+					## jobs
+					$job[] = $this->jobs->find(array('pekerjaan_id' =>$val->pekerjaan_id))->pekerjaan_name;
+
+					## volumes
+					$volume += $val->keg_volume;
+
+					## kavlings
+					$kavling[] = $val->kav_id;
+				}
+
+			## show jobs name
+			$job = implode(", ", array_unique($job));
+
+			## show kavlings name
+			unset($kavname);
+			foreach($kavling as $k){
+				$kavname[] = $this->kavs->find(array('kav_id' => $k))->kav_name;
+			}
+			$kav = implode(", ", array_unique($kavname));
+
+            $return[] = [
+                'keg_date'     		=> $r->keg_date,
+                'pekerjaan_name'    => $job,
+                'keg_volume'   		=> $volume,
+                'kav_name'  		=> $kav,
+                'keg_status'   		=> $r->keg_status
+            ];
+            
+        }
+        return $return;
+    }
+
+	public function verifyReport($status, $date)
+	{
+		$update = $this->reports->verifyKegiatan($status, $date);
+		redirect('mandor/recap');
+	}
+
+	public function getAbsensi($month, $year, $return = [])
+	{
+        $start = $year."-".$month."-01";
+        $end = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
+		
+		$data = $this->reports->findOrder('*', array('keg_date >=' => $start, 'keg_date <=' => $end), 'keg_date', 'DESC');
+
+		foreach($data as $value){
+            ## get job name
+			$name = $this->jobs->find(array('pekerjaan_id' => $value->pekerjaan_id));
+			$name = $name->pekerjaan_name;
+
+			## get job name
+			$bhl = $this->users->find(array('user_id' => $value->user_id));
+			$bhl = $bhl->user_name;
+
+            ## get total volume
+			$volume = $this->reports->sum('keg_volume', array('keg_date' => $value->keg_date));
+			$volume = $volume[0]->keg_volume;
+
+            ## get all kavling
+			unset($kavlings);
+			$kavlings = $this->reports->join('kav_name', 'kavling', 'kegiatan.kav_id = kavling.kav_id', array('keg_date' => $value->keg_date));
+
+            foreach($kavlings as $k){
+                $kav[] = $k->kav_name;
+            }
+
+			$kav = array_unique($kav);
+			$return[] = [
+                'keg_id'     		=> $value->keg_id,
+                'keg_date'     		=> $value->keg_date,
+                'user_name'     	=> $bhl,
+                'pekerjaan_name'   	=> $name,
+                'keg_cuaca' 		=> $value->keg_cuaca,
+                'kav_name' 			=> implode(", ", $kav),
+                'keg_timestamp'   	=> $value->keg_timestamp,
+                'keg_image'   		=> $value->keg_image
+            ];
+            
+        }
+        return $return;
 	}
 
     #################################################
@@ -422,6 +693,7 @@ class Laporan extends MY_Controller {
 		$return = $getdate[2]." ".$month." ".$getdate[0];
 		return $return;
 	}
+
 }
 
 	

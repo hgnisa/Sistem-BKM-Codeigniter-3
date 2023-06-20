@@ -49,32 +49,32 @@ $pdf->SetLeftMargin(10);
 ## DOCUMENT TABLE
 $pdf->Cell(80,5,'',0,1);
 $pdf->SetFont('Arial','',8);
+
 if(count($kegiatan) > 0){
     foreach($kegiatan as $d){
         $pdf->Cell(80,5, $d['pekerjaan_name'],1,0);
-        // if($periode == "awal"){
-        //     for($i=1;$i<=15;$i++) {
-        //         if($i < 10){
-        //             $date = $year."-".$month."-0".$i;
-        //         }else{
-        //             $date = $year."-".$month."-".$i;
-        //         }
-    
-        //         $amount = $kegiatan->show_sql("SELECT SUM(keg_volume) as amount FROM kegiatan WHERE keg_date = '$date' AND pekerjaan_id = '$pekerjaan_id'");
-        //         $pdf->Cell(8,5,$amount[0]['amount'] ? $amount[0]['amount'] : "",1,0,'C');
-        //     }
-        // }else{
-        //     for($i=16;$i<=$t;$i++) {
-        //         $date = $year."-".$month."-".$i;
-    
-        //         $amount = $kegiatan->show_sql("SELECT SUM(keg_volume) as amount FROM kegiatan WHERE keg_date = '$date' AND pekerjaan_id = '$pekerjaan_id'");
-            
-        //         $pdf->Cell(8,5,$amount[0]['amount'] ? $amount[0]['amount'] : "",1,0,'C');
-        //     }
-        // }
-    
+        if($periode == "start"){
+            for($i=1;$i<=15;$i++) {
+                $amount = 0;
+                foreach($totalKegiatan as $val){
+                    if($i == $val['date'] and $d['pekerjaan_name'] == $val['pekerjaan']){
+                        $amount = $val['amount'];
+                    }
+                }
+                $pdf->Cell(8,5, $amount ? $amount : "",1,0,'C');
+            }
+        }else{
+            for($i=16;$i<=$t;$i++) {
+                $amount = 0;
+                foreach($totalKegiatan as $val){
+                    if($i == $val['date'] and $d['pekerjaan_name'] == $val['pekerjaan']){
+                        $amount = $val['amount'];
+                    }
+                }
+                $pdf->Cell(8,5, $amount ? $amount : "",1,0,'C');
+            }
+        }
         $pdf->Cell(35,5,$d['keg_volume'],1,0,'C');  
-        $pdf->Cell(35,5,'',1,0,'C');  
         $pdf->Cell(35,5,$d['keg_satuan'],1,1,'C');
     }
 }else{

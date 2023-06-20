@@ -72,4 +72,12 @@ $route['admin/report/(:any)/(:any)'] = 'laporan/$1/$2';
 $route['admin/report/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3';
 $route['admin/report/(:any)/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3/$4';
 
+$route['mandor/profile/(:num)'] = 'mandor/profile/$1';
+
+$route['mandor/(:any)'] = 'laporan/$1';
+$route['mandor/(:any)/(:any)'] = 'laporan/$1/$2';
+$route['mandor/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3';
+$route['mandor/(:any)/(:any)/(:any)/(:any)'] = 'laporan/$1/$2/$3/$4';
+
+
 

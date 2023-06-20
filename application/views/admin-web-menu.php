@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="admin-index.php">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php print base_url();?>admin">
         <div class="sidebar-brand-text mx-3">Sistem BKM</div>
     </a>
 

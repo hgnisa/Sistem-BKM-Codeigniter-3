@@ -46,7 +46,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="col-lg-12">
-                                        <form action="<?php print base_url();?>mandor/absensi" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                        <form action="<?php print base_url();?>mandor/attendance" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                             <div class="input-group">
                                                 <label>Filter berdasarkan bulan: &nbsp;</label>
                                                 <select name="m" size='1' class="form-control bg-light border-1 small" placeholder="Cari"
@@ -125,7 +125,7 @@
                                                                     <?php
                                                                         if($data['keg_image']){
                                                                             ?>
-                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="<?php print base_url();?>mandor/modal/<?php print $data['keg_id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
+                                                                            <a href="#" onclick="return false" data-toggle="modal" data-target="#modaldetailkeg" data-backdrop="static" data-href="<?php print base_url();?>mandor/detailAttendance/<?php print $data['keg_id']; ?>" class="detailabsensi"><i class="fa fas-form fa-image"></i></a>
                                                                             <?php
                                                                         }
                                                                     ?>

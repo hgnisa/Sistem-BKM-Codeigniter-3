@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="col-lg-12">
-                                        <form action="<?php print base_url();?>mandor/rekap" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
+                                        <form action="<?php print base_url();?>mandor/recap" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                             <div class="input-group">
                                                 <label>Filter berdasarkan bulan: &nbsp;</label>
                                                 <select name="m" size='1' class="form-control bg-light border-1 small" placeholder="Cari"
@@ -118,8 +118,8 @@
                                                                 <td align="center">
                                                                     <?php 
                                                                     if($totalstatus == "p"){
-                                                                        ?>                                                                        
-                                                                        <a href="<?php print base_url();?>mandor/verifikasi/<?php print $data['keg_date'];?>" class="btn btn-sm btn-warning" style="padding: 1px 3px 1px 3px">
+                                                                        ?>
+                                                                        <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>" class="btn btn-sm btn-warning" style="padding: 1px 3px 1px 3px">
                                                                             <span class="icon text-white-50" style="font-size: 12px">
                                                                                 <i class="fas fa-user-edit fa-sm"></i>
                                                                             </span>

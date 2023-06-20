@@ -15,7 +15,9 @@
     <link href="<?php print base_url();?>css/sb-admin-2.min.css" rel="stylesheet">
     <link href="<?php print base_url();?>css/sb-admin-2-new.css" rel="stylesheet">
     <link href="<?php print base_url();?>vendor/fontawesome-free/css/fontawesome.min.css" rel="stylesheet">
-    <link href="<?php print base_url();?>vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="<?php print base_url();?>vendor/datatables/da
+			## notification
+			$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');taTables.bootstrap4.min.css" rel="stylesheet">
     <style>
         .table-responsive{
             font-size: small;
@@ -34,7 +36,7 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <button onclick="window.location='<?php print base_url();?>mandor/rekap'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
+                            <button onclick="window.location='<?php print base_url();?>mandor/recap'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
                         </div>
                     </div>
                     <div class="row">
@@ -45,7 +47,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row col-md-12 mb-3">
-                                        <a href="<?php print base_url();?>mandor/verify/y/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menyetujui rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-success btn-icon-split">
+                                        <a href="<?php print base_url();?>mandor/verifyReport/y/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menyetujui rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-success btn-icon-split">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-check fa-sm"></i>
                                             </span>
@@ -54,7 +56,7 @@
 
                                         &nbsp;&nbsp;
 
-                                        <a href="<?php print base_url();?>mandor/verify/n/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menolak rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-danger btn-icon-split">
+                                        <a href="<?php print base_url();?>mandor/verifyReport/n/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menolak rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-danger btn-icon-split">
                                             <span class="icon text-white-50">
                                                 <i class="fas fa-times fa-sm"></i>
                                             </span>
@@ -94,7 +96,7 @@
                                                                     <?php print $data['kav_name']; ?>
                                                                 </td>
                                                                 <td align="center">
-                                                                    <a href="<?php print base_url();?>mandor/detail/<?php print $data['keg_id'];?>/<?php print $date;?>/verif" title="Detail Kegiatan">
+                                                                    <a href="<?php print base_url();?>mandor/detailReport/<?php print $data['keg_id'];?>/<?php print $date;?>/verif" title="Detail Kegiatan">
                                                                         <i class="fa fas-form fa-list"></i>
                                                                     </a>&nbsp;&nbsp;
                                                                 </td>
@@ -119,25 +121,6 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
-
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?php print base_url();?>logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="<?php print base_url();?>js/jquery.min.js"></script>
     <script src="<?php print base_url();?>vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

@@ -65,9 +65,9 @@
                         <div class="col-lg-12 mb-2">
                             <?php                             
                             if($from == "verif"){
-                                $urlback = base_url()."mandor/verifikasi/".$date;
+                                $urlback = base_url()."mandor/verify/".$date;
                             }else{
-                                $urlback = base_url()."mandor/kegiatan?date=".$date;
+                                $urlback = base_url()."mandor/report?date=".$date;
                             }
                             ?>
                             <button onclick="window.location='<?php print $urlback;?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>

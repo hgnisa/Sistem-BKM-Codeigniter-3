@@ -130,7 +130,7 @@
                                                                     </td>
                                                                     <td align="center">
                                                                         <?php 
-                                                                            print $data['keg_date']; 
+			                                                                print implode(", ", $data['keg_date']);
                                                                         ?>
                                                                     </td>
                                                                     <td align="center"><?php print $data['keg_volume']; ?></td>
