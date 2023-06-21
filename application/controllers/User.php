@@ -284,10 +284,6 @@ class User extends MY_Controller {
 				$imgfile = $dataimg['file_name'];
 			}
 
-			if($type == "admin"){
-				$imgfile = '';
-			}
-
 			if(!$error){
 				$arr['user_name'] = $name;
 				$arr['user_username'] = $username;
@@ -295,8 +291,12 @@ class User extends MY_Controller {
 					$password = md5($password); 
 					$arr['user_password'] = $password;
 				}
-				$arr['user_type'] = $type;					
-				$arr['user_profile'] = $imgfile;
+				$arr['user_type'] = $type;	
+				if($type == "admin"){
+					$arr['user_profile'] = '';
+				}elseif($dataimg){
+					$arr['user_profile'] = $imgfile;
+				}
 
 				$update = $this->users->update($arr, $id);
 				?>
@@ -399,19 +399,16 @@ class User extends MY_Controller {
 				$imgfile = $dataimg['file_name'];
 			}
 
-			if($type == "admin"){
-				$imgfile = '';
-			}
-
 			if(!$error){
 				$arr['user_name'] = $name;
 				$arr['user_username'] = $username;
 				if($password){
 					$password = md5($password); 
 					$arr['user_password'] = $password;
+				}		
+				if($dataimg){
+					$arr['user_profile'] = $imgfile;
 				}
-				$arr['user_type'] = $type;					
-				$arr['user_profile'] = $imgfile;
 
 				$update = $this->users->update($arr, $id);
 				?>

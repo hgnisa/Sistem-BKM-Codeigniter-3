@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                    <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <table class="table table-bordered" id="dataTable   " width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th class="text-center" width="110">Tanggal</th>
@@ -135,11 +135,19 @@
                                                             }
                                                             $no++;
                                                         }
+                                                    }else{
+                                                        ?>
+                                                            <tr>
+                                                                <td colspan="5" align="center">
+                                                                    Tidak ada data
+                                                                </td>
+                                                            </tr>
+                                                        <?php
                                                     }
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="<?php print base_url();?>admin/harian">Lihat Laporan Harian &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>admin/report/daily">Lihat Laporan Harian &rarr;</a>
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +193,7 @@
                                                         ?>
                                                             <tr>
                                                                 <td colspan="5" align="center">
-                                                                    Tidak ada laporan bulanan
+                                                                    Tidak ada data
                                                                 </td>
                                                             </tr>
                                                         <?php
@@ -193,7 +201,7 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="<?php print base_url();?>admin/bulanan/">Lihat Laporan Bulanan &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>admin/report/monthly/">Lihat Laporan Bulanan &rarr;</a>
                                     </div>
                                 </div>
                             </div>

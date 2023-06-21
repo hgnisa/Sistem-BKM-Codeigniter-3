@@ -15,7 +15,7 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="<?php print base_url();?>/admin/pengguna/edit/<?php print $users->user_id;?>">
+                <a class="dropdown-item" href="<?php print base_url();?>/admin/user/edit/<?php print $users->user_id;?>">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Profil
                 </a>

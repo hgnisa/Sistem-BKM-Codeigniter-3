@@ -25,7 +25,7 @@
                         $dates = strtotime($value->keg_date);
                         $dates = date('d/m/y',$dates);
                         ?>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verifikasi/<?php print $value->keg_date;?>" target="_blank">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verify/<?php print $value->keg_date;?>" target="_blank">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-primary">
                                         <i class="fas fa-file-alt text-white"></i>
@@ -38,6 +38,12 @@
                             </a>
                         <?php
                     }
+                }else{
+                    ?>
+                    <div class="text-center pt-3">
+                        <span>Tidak ada laporan baru.</span>
+                    </div>
+                    <?php
                 }
                 ?>
                 <a class="text-center small text-gray-500" style="pointer-events: none; cursor: default; font-size: 10px">&nbsp;</a>

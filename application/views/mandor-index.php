@@ -179,11 +179,19 @@
                                                             }
                                                             $no++;
                                                         }
+                                                    }else{
+                                                        ?>
+                                                            <tr>
+                                                                <td colspan="5" align="center">
+                                                                    Tidak ada data
+                                                                </td>
+                                                            </tr>
+                                                        <?php
                                                     }
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="<?php print base_url();?>mandor/rekap">Lihat Rekap Laporan &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>mandor/recap">Lihat Rekap Laporan &rarr;</a>
                                     </div>
                                 </div>
                             </div>

@@ -2,7 +2,7 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php print base_url();?>admin">
-        <div class="sidebar-brand-text mx-3">Sistem BKM</div>
+        <i class="fas fa-trademark"></i><div class="sidebar-brand-text mx-3">Sistem BKM</div>
     </a>
 
     <!-- Divider -->
