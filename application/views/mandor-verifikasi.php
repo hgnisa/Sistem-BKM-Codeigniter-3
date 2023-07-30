@@ -34,35 +34,65 @@
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Verifikasi Rekap Laporan</h1>
                     </div>
+                    <?php $imp = explode("-", $date); ?>
                     <div class="row">
                         <div class="col-lg-12 mb-2">
-                            <button onclick="window.location='<?php print base_url();?>mandor/recap'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
+                            <button onclick="window.location='<?php print base_url();?>mandor/recap?m=<?php print $imp['1'];?>&y=<?php print $imp['0'];?>'" type="submit" class="btn btn-warning btn-sm form-input-sm mt-0 pr-3"><i class="fa fa-arrow-left fa-fw"></i> Kembali</button>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 mb-4">
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">  
-                                    <h6 class="m-0 font-weight-bold text-primary">Rekap Laporan <?php print $fulldate; ?> </h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Rekap Laporan <?php print $fulldate; ?> [ <?php print $bhlname; ?> ] </h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row col-md-12 mb-3">
-                                        <a href="<?php print base_url();?>mandor/verifyReport/y/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menyetujui rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-success btn-icon-split">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-check fa-sm"></i>
-                                            </span>
-                                            <span class="text">Setujui Laporan</span>
-                                        </a> 
+                                    <?php
+                                        if($rekap[0]['keg_status'] == 'p'){
+                                            ?>
+                                            <div class="row col-md-12 mb-3">
+                                                <a href="<?php print base_url();?>mandor/verifyReport/y/<?php print $date;?>/<?php print $bhlid;?>" onclick="return confirm('Apakah Anda yakin ingin menyetujui rekap laporan <?php print $bhlname;?>, tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-success btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-check fa-sm"></i>
+                                                    </span>
+                                                    <span class="text">Setujui Laporan</span>
+                                                </a> 
+        
+                                                &nbsp;&nbsp;
+        
+                                                <a href="<?php print base_url();?>mandor/verifyReport/n/<?php print $date;?>/<?php print $bhlid;?>" onclick="return confirm('Apakah Anda yakin ingin menolak rekap laporan <?php print $bhlname;?>, tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-danger btn-icon-split">
+                                                    <span class="icon text-white-50">
+                                                        <i class="fas fa-times fa-sm"></i>
+                                                    </span>
+                                                    <span class="text">Tolak Laporan</span>
+                                                </a> 
+                                            </div>
+                                            <?php
+                                        }else{
+                                            ?>
+                                                <div class="row col-md-12 mb-3">
+                                                    <?php
+                                                        if($rekap[0]['keg_status'] == 'y'){
+                                                            ?>
+                                                                <button disable class="btn btn-success btn-circle btn-sm"><i class="fas fa-check"></i>
+                                                                </button>
+                                                                <span class="text-success font-weight-bold my-1 mx-2">Laporan Diterima</span>
+                                                            <?php
+                                                        }else{
+                                                            ?>
+                                                                <button disable class="btn btn-danger btn-circle btn-sm"><i class="fas fa-check"></i>
+                                                                </button>
+                                                                <span class="text-danger font-weight-bold my-1 mx-2">Laporan Ditolak</span>
+                                                            <?php
+                                                        }
+                                                    ?>
+                                                    
 
-                                        &nbsp;&nbsp;
-
-                                        <a href="<?php print base_url();?>mandor/verifyReport/n/<?php print $date;?>" onclick="return confirm('Apakah Anda yakin ingin menolak rekap laporan tanggal <?php print $fulldate;?>?');" class="btn btn-sm btn-danger btn-icon-split">
-                                            <span class="icon text-white-50">
-                                                <i class="fas fa-times fa-sm"></i>
-                                            </span>
-                                            <span class="text">Tolak Laporan</span>
-                                        </a> 
-                                    </div>
+                                                   
+                                                </div>
+                                            <?php
+                                        }
+                                    ?>
                                     <div class="table-responsive">
                                         <table class="table table-bordered" width="100%" cellspacing="0">
                                             <thead>

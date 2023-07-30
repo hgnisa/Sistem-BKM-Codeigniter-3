@@ -115,67 +115,76 @@
                                         <table class="table table-bordered" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" width="110">Tanggal</th>
-                                                    <th class="text-center">Jenis Pekerjaan</th>
-                                                    <th class="text-center" width="120">Jumlah Volume Satuan</th>
-                                                    <th class="text-center" width="250">Kavling</th>
-                                                    <th class="text-center" width="150">Status</th>
+                                                    <th class="text-center" width="100">Tanggal</th>
+                                                    <th class="text-center">Nama BHL</th>
+                                                    <th class="text-center" width="350">Jenis Pekerjaan</th>
+                                                    <th class="text-center" width="130">Status</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <?php 
                                                     if(count($rekap) > 0){
                                                         $no = 1;
-                                                        foreach($rekap as $key => $data){
-                                                            if($no < 11){
-                                                                ?>
-                                                                    <tr>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                                $dates = strtotime($data['keg_date']);
-                                                                                print date('d/m/y',$dates);
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['pekerjaan_name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                                print $data['keg_volume'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['kav_name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                            if($data['keg_status'] == "y"){
-                                                                                ?>
-                                                                                    <span class="label label-success">
-                                                                                        <i class="fas fa-check fa-sm"></i> Diterima
-                                                                                    </span>
-                                                                                <?php
-                                                                            }elseif($data['keg_status'] == "n"){
-                                                                                ?>
-                                                                                    <span class="label label-danger">
-                                                                                        <i class="fas fa-times fa-sm"></i> Ditolak
-                                                                                    </span>
-                                                                                <?php
-                                                                            }else{
-                                                                                ?> 
-                                                                                <span class="label label-warning">
-                                                                                    <i class="fas fa-clock fa-sm"></i> Belum disetujui
-                                                                                </span>
-                                                                                <?php
-                                                                            }
-                                                                            ?>
-                                                                        </td>
-                                                                    </tr>
+                                                        foreach(array_keys($rekap) as $key) {
+                                                            if($no < 3){
+                                                                ?>  
+                                                                <tr>
+                                                                    <td colspan="5" style="padding-left: 20px">
+                                                                        <?php 
+                                                                            $dates = strtotime($key);
+                                                                            print date('d/m/y',$dates);
+                                                                        ?>
+                                                                    </td>
+                                                                </tr>
                                                                 <?php
+                                                                foreach($rekap[$key] as $data) {
+                                                                    if($data['keg_status'] == 'p'){
+                                                                        $totalstatus = 'p';
+                                                                    }elseif($data['keg_status'] == 'n'){
+                                                                        $totalstatus = 'n';
+                                                                    }else{
+                                                                        $totalstatus = 'y';
+                                                                    }
+                                                                    ?>
+                                                                    <tr>
+                                                                        <td colspan="2" style="padding-left: 120px;"><strong><?php print $data['user_name'];?></strong></td>
+                                                                        <td><?php print $data['pekerjaan_name'];?></td>
+                                                                        <td align="center">
+                                                                        <?php 
+                                                                        if($totalstatus == "p"){
+                                                                            ?>
+                                                                            <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-warning" style="padding: 1px 3px 1px 3px">
+                                                                                <span class="icon text-white-50" style="font-size: 12px">
+                                                                                    <i class="fas fa-user-edit fa-sm"></i>
+                                                                                </span>
+                                                                                <span class="text" style="font-size: 12px">Verifikasi</span>
+                                                                            </a>
+                                                                            <?php
+                                                                        } elseif($totalstatus == "n"){
+                                                                            ?>
+                                                                                <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-danger" style="padding: 1px 3px 1px 3px;">
+                                                                                    <span class="icon text-white-50" style="font-size: 12px">
+                                                                                        <i class="fas fa-times"></i>
+                                                                                    </span>
+                                                                                    <span class="text" style="font-size: 12px">Ditolak</span>
+                                                                                </a>
+                                                                            <?php
+                                                                        } elseif($totalstatus == "y"){
+                                                                            ?>
+                                                                                <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-success" style="padding: 1px 5px 1px 5px; outline: none; box-shadow: none;">
+                                                                                    <span class="icon text-white-50" style="font-size: 12px">
+                                                                                        <i class="fas fa-check"></i>
+                                                                                    </span>
+                                                                                    <span class="text" style="font-size: 12px">Diterima</span>
+                                                                                </a>
+                                                                            <?php
+                                                                        }
+                                                                        ?>
+                                                                    </td>
+                                                                    </tr>
+                                                            
+                                                                    <?php
+                                                                }
                                                             }
                                                             $no++;
                                                         }

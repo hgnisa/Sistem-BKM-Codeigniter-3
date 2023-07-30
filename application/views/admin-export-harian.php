@@ -59,7 +59,7 @@ $pdf->Cell(30,4,"Bagan Batu, ".date("d")." ".$month_name_now." ".date("Y"),0,1,'
 $pdf->Cell(30,4,"Direkap Oleh",0,0,'C');
 $pdf->Cell(30,20,'',0,1);
 $pdf->SetFont('Arial','BU',8);
-$pdf->Cell(30,4,"SHALLY ANGGRAINI UTAMI, S.AP",0,1,'C');
+$pdf->Cell(30,4,$admin_name,0,1,'C');
 $pdf->SetFont('Arial','B',8);
 $pdf->Cell(30,4,"ADMIN",0,0,'C');
 

@@ -83,51 +83,57 @@ class Admin extends MY_Controller {
 
 	public function getHarian($month, $year, $return = [])
 	{
-        $month = $month ? $month : date('m');
+		$month = $month ? $month : date('m');
         $year = $year ? $year : date('Y');
 
         $start = $year."-".$month."-01";
         $end = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
-		
+
 		$data = $this->reports->groupBy(array('keg_date >=' => $start, 'keg_date <=' => $end), 'keg_date', 'keg_date', 'DESC');
 
         foreach($data as $r){
-			## get all data by each keg_date
-			unset($datas);
-			$datas = $this->reports->findResult('*', array('keg_date' => $r->keg_date));
 
-				unset($job);
+			## get all user by date
+			$getusersbydate = $this->reports->groupBy(array('keg_date =' => $r->keg_date), 'user_id', 'user_id', 'ASC');
+			foreach($getusersbydate as $vals){
+				unset($datas);	
+				$datas = $this->reports->findResult('*', array('keg_date' => $r->keg_date, 'user_id' => $vals->user_id));
+
+				unset($jobs);
+				unset($kavling);
 				unset($kavling);
 				$volume = 0;
 				foreach($datas as $val){
 					## jobs
-					$job[] = $this->jobs->find(array('pekerjaan_id' =>$val->pekerjaan_id))->pekerjaan_name;
-
+					$jobs[] = $this->jobs->find(array('pekerjaan_id' =>$val->pekerjaan_id))->pekerjaan_name;
+	
 					## volumes
 					$volume += $val->keg_volume;
-
+	
 					## kavlings
-					// $kavling[] = $this->kavs->find(array('kav_id' => $val->kav_id));
 					$kavling[] = $val->kav_id;
+				}	
+				
+				## show jobs name
+				$jobs = implode(", ", array_unique($jobs));
+
+				## show kavlings name
+				unset($kavname);
+				foreach($kavling as $k){
+					$kavname[] = $this->kavs->find(array('kav_id' => $k))->kav_name;
 				}
+				$kav = implode(", ", array_unique($kavname));
 
-			## show jobs name
-			$job = implode(", ", array_unique($job));
-
-			## show kavlings name
-			foreach($kavling as $k){
-				$kavname[] = $this->kavs->find(array('kav_id' => $k))->kav_name;
+				$return[$r->keg_date][] = [
+					'user_id'			=> $datas[0]->user_id,
+					'user_name'     	=> $this->users->find(array('user_id' => $datas[0]->user_id))->user_name,
+					'keg_date'     		=> $datas[0]->keg_date,
+					'pekerjaan_name'	=> $jobs,
+					'keg_volume'   		=> $volume,
+					'kav_name'  		=> $kav,
+					'keg_status'   		=> $datas[0]->keg_status
+				];
 			}
-			$kav = implode(", ", array_unique($kavname));
-
-            $return[] = [
-                'keg_date'     		=> $r->keg_date,
-                'pekerjaan_name'    => $job,
-                'keg_volume'   		=> $volume,
-                'kav_name'  		=> $kav,
-                'keg_status'   		=> $r->keg_status
-            ];
-            
         }
         return $return;
     }

@@ -12,5 +12,20 @@ class MY_Controller extends CI_Controller {
         if ( !$this->session->userdata('logged_in')){
             redirect('auth/login');
         }
+
+        ## get user logged in
+		$userdata = $this->session->userdata();
+		$currentURL = current_url(); 
+
+        $checkadm = strpos($currentURL, "admin");
+        $checkmdr = strpos($currentURL, "mandor");
+
+        if($checkadm or $checkmdr){
+            $check = strpos($currentURL, $userdata['roles']);
+            if ($check === false or $check == 0) {
+                redirect(base_url().$userdata['roles']);
+            } 
+        }
+            
     }
 }

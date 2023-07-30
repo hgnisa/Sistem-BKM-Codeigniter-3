@@ -47,7 +47,10 @@
                                     <h6 class="m-0 font-weight-bold text-primary">Kegiatan</h6>
                                 </div>
                                 <div class="card-body">
-                                    <a href="<?php print base_url();?>mandor/exportReport?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>    
+                                    <!-- <a href="<?php print base_url();?>mandor/exportReport?<?php print $date;?>" id="ex-trig" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i class="fas fa-file-pdf fa-sm text-white-70"></i> &nbsp;Export Laporan </a>     -->
+
+                                    <button type="button" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-pdf fa-sm text-white-70"></i>&nbsp;Export Laporan</button>
+
                                     <form action="<?php print base_url();?>mandor/report" name="search" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" style="float: right;" method="get">
                                         <div class="input-group">
                                             <label>Filter berdasarkan tanggal: &nbsp;</label>
@@ -106,6 +109,37 @@
                                         </table>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Export Laporan Harian</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="addadminname" action="<?php print base_url();?>mandor/exportReport?<?php print $date;?>" method="post" enctype="multipart/form-data" name="exportdaily" id="exportdaily">
+                                    <div class="form-group row">
+                                        <div class="col-sm-5 mt-2 form-input-sm">
+                                            <label for="pekerjaan">Admin yang bertandatangan: </label>
+                                        </div>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control form-input-sm" id="adminname" name="adminname" placeholder="Nama" required>
+                                        </div>
+                                    </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-5"></div>
+                                            <div class="col-sm-7">
+                                                <button type="submit" class="btn btn-sm btn-primary">Export Laporan</button>
+                                                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Batal</button>
+                                            </div>
+                                        </div>
+                                </form>
+                            </div>
                             </div>
                         </div>
                     </div>

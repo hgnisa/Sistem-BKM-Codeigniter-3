@@ -34,7 +34,7 @@ class Mandor extends MY_Controller {
 		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
 		## notification
-		$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');	
+		$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date, user_id');	
 
 		## data report this month
 		$data['month'] = date('m'); 
@@ -53,52 +53,69 @@ class Mandor extends MY_Controller {
 		$data['users'] = $this->users->find(array('user_id' => $userdata["id"]));
 
 		## notification
-		$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date');
+		$data['notify'] = $this->reports->groupBy(array('keg_status' => 'p'), 'keg_date, user_id');	
 
 		## data profile
 		$this->load->view('mandor-edit-profile', $data);
 	}
 
-	public function getRekap($month, $year, $return = [])
+ 	public function getRekap($month, $year, $return = [])
 	{
-        $month = $month ? $month : date('m');
+		$month = $month ? $month : date('m');
         $year = $year ? $year : date('Y');
 
         $start = $year."-".$month."-01";
         $end = $year."-".$month."-".date("t", strtotime($year."-".$month."-01"));
-		
+
 		$data = $this->reports->groupBy(array('keg_date >=' => $start, 'keg_date <=' => $end), 'keg_date', 'keg_date', 'DESC');
 
         foreach($data as $r){
-            ## get job name
-			$name = $this->jobs->find(array('pekerjaan_id' => $r->pekerjaan_id));
-			$name = $name->pekerjaan_name;
+			## get all user by date
+			$getusersbydate = $this->reports->groupBy(array('keg_date =' => $r->keg_date), 'user_id', 'user_id', 'ASC');
+			foreach($getusersbydate as $vals){
+				unset($datas);	
+				$datas = $this->reports->findResult('*', array('keg_date' => $r->keg_date, 'user_id' => $vals->user_id));
 
-            ## get total volume
-			$volume = $this->reports->sum('keg_volume', array('keg_date' => $r->keg_date));
-			$volume = $volume[0]->keg_volume;
+				unset($jobs);
+				unset($kavling);
+				unset($kavling);
+				$volume = 0;
+				foreach($datas as $val){
+					## jobs
+					$jobs[] = $this->jobs->find(array('pekerjaan_id' =>$val->pekerjaan_id))->pekerjaan_name;
+	
+					## volumes
+					$volume += $val->keg_volume;
+	
+					## kavlings
+					$kavling[] = $val->kav_id;
+				}	
+				
+				## show jobs name
+				$jobs = implode(", ", array_unique($jobs));
 
-            ## get all kavling
-			unset($kavlings);
-			$kavlings = $this->reports->join('kav_name', 'kavling', 'kegiatan.kav_id = kavling.kav_id', array('keg_date' => $r->keg_date));
+				## show kavlings name
+				unset($kavname);
+				foreach($kavling as $k){
+					$kavname[] = $this->kavs->find(array('kav_id' => $k))->kav_name;
+				}
+				$kav = implode(", ", array_unique($kavname));
 
-            foreach($kavlings as $k){
-                $kav[] = $k->kav_name;
-            }
-
-			$kav = array_unique($kav);
-            $return[] = [
-                'keg_date'     		=> $r->keg_date,
-                'pekerjaan_name'    => $name,
-                'keg_volume'   		=> $volume,
-                'kav_name'  		=> implode(", ", $kav),
-                'keg_status'   		=> $r->keg_status
-            ];
-            
+				$return[$r->keg_date][] = [
+					'user_id'			=> $datas[0]->user_id,
+					'user_name'     	=> $this->users->find(array('user_id' => $datas[0]->user_id))->user_name,
+					'keg_date'     		=> $datas[0]->keg_date,
+					'pekerjaan_name'	=> $jobs,
+					'keg_volume'   		=> $volume,
+					'kav_name'  		=> $kav,
+					'keg_status'   		=> $datas[0]->keg_status
+				];
+			}
         }
+
         return $return;
     }
-
+	
 	public function monthName($month, $monthname = NULL)
 	{
 		if($month == '1'){

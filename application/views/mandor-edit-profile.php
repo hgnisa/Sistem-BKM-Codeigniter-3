@@ -20,7 +20,7 @@
 </head>
 <body id="page-top">
     <div id="wrapper">
-        <?php require("mandor-web-menu.php"); ?>
+        <?php require("mandor-web-menu.php");?>
         <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <?php require("mandor-web-header-menu.php"); ?>

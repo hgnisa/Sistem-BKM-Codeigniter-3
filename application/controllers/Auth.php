@@ -35,6 +35,10 @@ class Auth extends CI_Controller {
 			$update = $this->users->update(array('user_lastlogin' => $sessionData["last_login"]), $sessionData["id"]);
 
             $this->session->set_userdata($sessionData);
+			
+			setcookie("cook_id",$validate->user_id,0,"/");
+            setcookie("cook_type",$type,0,"/");
+
 			if($type == 'admin'){
 				redirect('admin');
 			}elseif($type == 'mandor'){
@@ -50,6 +54,10 @@ class Auth extends CI_Controller {
 	{
 		$roles = $this->session->userdata('roles');
 		$this->session->sess_destroy();
+
+		setcookie("cook_id","",time()-1,"/");
+		setcookie("cook_username","",time()-1,"/");
+
 		redirect('auth/login');
 	}
 }

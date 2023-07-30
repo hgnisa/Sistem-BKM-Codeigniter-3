@@ -95,9 +95,10 @@ class kegiatanModel extends CI_Model
         return $data->result();
     }
 
-    public function verifyKegiatan($status, $date){
+    public function verifyKegiatan($status, $date, $bhl){
         $this->db->set('keg_status', $status);
         $this->db->where('keg_date', $date);
+        $this->db->where('user_id', $bhl);
         $this->db->update($this->table);
     }
 }

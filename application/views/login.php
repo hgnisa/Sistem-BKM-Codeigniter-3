@@ -18,9 +18,13 @@
             font-size: 0.8rem;
             height: 50px;
         }
+
+        body {
+            background-image: url("../img/bgkbp.jpg");
+        }
     </style>
 </head>
-<body class="bg-gradient-primary">
+<body>
     <div class="container">
         <!-- Outer Row -->
         <div class="row justify-content-center">
@@ -33,7 +37,7 @@
                             <div class="col-lg-12">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">SISTEM BKM</h1>
+                                        <img src="<?php print base_url();?>img/logokbp.jpeg" style="width: 130px; height: 100px; margin-bottom: 30px">
                                     </div>
                                     <form class="user" action="<?php print base_url(); ?>auth/process_login" method="post"  name="login" id="login" autocomplete="off">
                                         <div class="form-group">

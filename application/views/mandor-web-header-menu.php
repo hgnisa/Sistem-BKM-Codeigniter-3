@@ -25,7 +25,7 @@
                         $dates = strtotime($value->keg_date);
                         $dates = date('d/m/y',$dates);
                         ?>
-                            <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verify/<?php print $value->keg_date;?>" target="_blank">
+                            <a class="dropdown-item d-flex align-items-center" href="<?php print base_url();?>mandor/verify/<?php print $value->keg_date;?>/<?php print $value->user_id;?>" target="_blank">
                                 <div class="mr-3">
                                     <div class="icon-circle bg-primary">
                                         <i class="fas fa-file-alt text-white"></i>

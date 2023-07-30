@@ -34,7 +34,7 @@ $pdf->Cell(35,10,'TOTAL',1,0,'C',1);
 $pdf->Cell(35,10,'SATUAN',1,0,'C',1);
 $pdf->Cell(0,5,'',0,1);
 $pdf->SetLeftMargin(90);
-if($periode == "awal"){
+if($periode == "start"){
     for($i=1;$i<=15;$i++) {
         $pdf->Cell(8,5,$i,1,0,'C',1);
     }
@@ -63,7 +63,7 @@ if(count($kegiatan) > 0){
                 }
                 $pdf->Cell(8,5, $amount ? $amount : "",1,0,'C');
             }
-        }else{
+        }elseif($periode == "end"){
             for($i=16;$i<=$t;$i++) {
                 $amount = 0;
                 foreach($totalKegiatan as $val){

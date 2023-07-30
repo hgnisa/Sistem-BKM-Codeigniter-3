@@ -82,12 +82,13 @@
                                         </form>
                                     </div><br><br><br>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <table class="table table-bordered" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" width="110">Tanggal</th>
-                                                    <th class="text-center">Jenis Pekerjaan</th>
-                                                    <th class="text-center" width="150">Jumlah Volume Satuan</th>
+                                                    <th class="text-center" width="60">Tanggal</th>
+                                                    <th class="text-center">Nama BHL</th>
+                                                    <th class="text-center" width="250">Jenis Pekerjaan</th>
+                                                    <th class="text-center" width="100">Jumlah Volume</th>
                                                     <th class="text-center" width="180">Kavling</th>
                                                     <th class="text-center" width="130">Status</th>
                                                 </tr>
@@ -95,31 +96,36 @@
                                             <tbody>
                                                 <?php
                                                     if(count($rekap) > 0){
-                                                        $no = 1;
-                                                        foreach($rekap as $data){
-                                                            if($data['keg_status'] == 'p'){
-                                                                $totalstatus = 'p';
-                                                            }elseif($data['keg_status'] == 'n'){
-                                                                $totalstatus = 'n';
-                                                            }else{
-                                                                $totalstatus = 'y';
-                                                            }
-                                                            ?>
+                                                        foreach(array_keys($rekap) as $key) {
+                                                            ?>  
                                                             <tr>
-                                                                <td align="center">
+                                                                <td colspan="5" style="padding-left: 10px">
                                                                     <?php 
-                                                                        $dates = strtotime($data['keg_date']);
+                                                                        $dates = strtotime($key);
                                                                         print date('d/m/y',$dates);
                                                                     ?>
                                                                 </td>
-                                                                <td><?php print $data['pekerjaan_name'];?></td>
-                                                                <td align="center"><?php print $data['keg_volume'];?></td>
-                                                                <td><?php print $data['kav_name'];?></td>
-                                                                <td align="center">
+                                                            </tr>
+                                                            <?php
+                                                            foreach($rekap[$key] as $data) {
+                                                                if($data['keg_status'] == 'p'){
+                                                                    $totalstatus = 'p';
+                                                                }elseif($data['keg_status'] == 'n'){
+                                                                    $totalstatus = 'n';
+                                                                }else{
+                                                                    $totalstatus = 'y';
+                                                                }
+                                                                ?>
+                                                                <tr>
+                                                                    <td colspan="2" style="padding-left: 80px;"><strong><?php print $data['user_name'];?></strong></td>
+                                                                    <td><?php print $data['pekerjaan_name'];?></td>
+                                                                    <td align="center"><?php print $data['keg_volume'];?></td>
+                                                                    <td><?php print $data['kav_name'];?></td>
+                                                                    <td align="center">
                                                                     <?php 
                                                                     if($totalstatus == "p"){
                                                                         ?>
-                                                                        <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>" class="btn btn-sm btn-warning" style="padding: 1px 3px 1px 3px">
+                                                                        <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-warning" style="padding: 1px 3px 1px 3px">
                                                                             <span class="icon text-white-50" style="font-size: 12px">
                                                                                 <i class="fas fa-user-edit fa-sm"></i>
                                                                             </span>
@@ -128,7 +134,7 @@
                                                                         <?php
                                                                     } elseif($totalstatus == "n"){
                                                                         ?>
-                                                                            <a class="btn btn-sm btn-danger" style="padding: 1px 3px 1px 3px">
+                                                                            <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-danger" style="padding: 1px 3px 1px 3px">
                                                                                 <span class="icon text-white-50" style="font-size: 12px">
                                                                                     <i class="fas fa-times"></i>
                                                                                 </span>
@@ -137,7 +143,7 @@
                                                                         <?php
                                                                     } elseif($totalstatus == "y"){
                                                                         ?>
-                                                                            <a class="btn btn-sm btn-success" style="padding: 1px 5px 1px 5px">
+                                                                            <a href="<?php print base_url();?>mandor/verify/<?php print $data['keg_date'];?>/<?php print $data['user_id'];?>" class="btn btn-sm btn-success" style="padding: 1px 5px 1px 5px">
                                                                                 <span class="icon text-white-50" style="font-size: 12px">
                                                                                     <i class="fas fa-check"></i>
                                                                                 </span>
@@ -147,8 +153,11 @@
                                                                     }
                                                                     ?>
                                                                 </td>
-                                                            </tr>
-                                                            <?php
+                                                                </tr>
+                                                        
+                                                                <?php
+                                                            }
+
                                                         }
                                                     }
                                                 ?>

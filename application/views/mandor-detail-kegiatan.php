@@ -65,7 +65,7 @@
                         <div class="col-lg-12 mb-2">
                             <?php                             
                             if($from == "verif"){
-                                $urlback = base_url()."mandor/verify/".$date;
+                                $urlback = base_url()."mandor/verify/".$date."/".$kegiatan['user_id'];
                             }else{
                                 $urlback = base_url()."mandor/report?date=".$date;
                             }

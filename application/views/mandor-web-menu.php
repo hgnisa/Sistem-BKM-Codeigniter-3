@@ -2,7 +2,8 @@
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="<?php print base_url();?>mandor">
-        <i class="fas fa-trademark"></i><div class="sidebar-brand-text mx-3">Sistem BKM</div>
+        <img src="<?php print base_url();?>img/logokbp.jpeg"  style="width: 60px; height: 30px;">
+        <div class="sidebar-brand-text mx-2">Sistem BKM</div>
     </a>
 
     <!-- Divider -->

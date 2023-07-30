@@ -71,10 +71,9 @@
                                     <table class="table table-bordered" id="dataTable   " width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
-                                                    <th class="text-center" width="110">Tanggal</th>
-                                                    <th class="text-center">Jenis Pekerjaan</th>
-                                                    <th class="text-center" width="120">Jumlah Volume Satuan</th>
-                                                    <th class="text-center" width="250">Kavling</th>
+                                                    <th class="text-center" width="100">Tanggal</th>
+                                                    <th class="text-center">Nama BHL</th>
+                                                    <th class="text-center" width="300">Jenis Pekerjaan</th>
                                                     <th class="text-center" width="150">Status</th>
                                                 </tr>
                                             </thead>
@@ -83,39 +82,38 @@
                                                     if(count($harian) > 0){
                                                         $no = 1;
                                                         foreach($harian as $key => $data){
-                                                            if($no < 11){
-                                                                ?>
+                                                            if($no < 3){
+                                                                ?>  
+                                                                <tr>
+                                                                    <td colspan="5" style="padding-left: 20px">
+                                                                        <?php 
+                                                                            $dates = strtotime($key);
+                                                                            print date('d/m/y',$dates);
+                                                                        ?>
+                                                                    </td>
+                                                                </tr>
+                                                                <?php
+                                                                foreach($harian[$key] as $data) {
+                                                                    if($data['keg_status'] == 'p'){
+                                                                        $status = 'p';
+                                                                    }elseif($data['keg_status'] == 'n'){
+                                                                        $status = 'n';
+                                                                    }else{
+                                                                        $status = 'y';
+                                                                    }
+                                                                    ?>
                                                                     <tr>
+                                                                        <td colspan="2" style="padding-left: 120px;"><strong><?php print $data['user_name'];?></strong></td>
+                                                                        <td><?php print $data['pekerjaan_name'];?></td>
                                                                         <td align="center">
                                                                             <?php 
-                                                                                $dates = strtotime($data['keg_date']);
-                                                                                print date('d/m/y',$dates);
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['pekerjaan_name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                                print $data['keg_volume'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td>
-                                                                            <?php 
-                                                                                print $data['kav_name'];
-                                                                            ?>
-                                                                        </td>
-                                                                        <td align="center">
-                                                                            <?php 
-                                                                            if($data['keg_status'] == "y"){
+                                                                            if($status == "y"){
                                                                                 ?>
                                                                                     <span class="label label-success">
                                                                                         <i class="fas fa-check fa-sm"></i> Diterima
                                                                                     </span>
                                                                                 <?php
-                                                                            }elseif($data['keg_status'] == "n"){
+                                                                            }elseif($status == "n"){
                                                                                 ?>
                                                                                     <span class="label label-danger">
                                                                                         <i class="fas fa-times fa-sm"></i> Ditolak
@@ -131,7 +129,8 @@
                                                                             ?>
                                                                         </td>
                                                                     </tr>
-                                                                <?php
+                                                                    <?php
+                                                                }
                                                             }
                                                             $no++;
                                                         }
@@ -201,7 +200,7 @@
                                                 ?>
                                             </tbody>
                                         </table>
-                                        <a rel="nofollow" href="<?php print base_url();?>admin/report/monthly/">Lihat Laporan Bulanan &rarr;</a>
+                                        <a rel="nofollow" href="<?php print base_url();?>admin/report/monthly/start?m=<?php print date('m');?>&y=<?php print date('Y');?>">Lihat Laporan Bulanan &rarr;</a>
                                     </div>
                                 </div>
                             </div>
